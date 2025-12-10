@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agentic Forge - Efficient AI Agent Framework</title>
     <meta name="description" content="Build more efficient AI agents with smart tool management, TOON format support, and protocol interoperability.">
+    <link rel="icon" type="image/png" href="assets/logo.png">
     <style>
         :root {
             --primary: #7c3aed;
@@ -50,14 +51,28 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--text);
             text-decoration: none;
         }
 
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
         .logo span {
             color: var(--accent);
+        }
+
+        .hero-logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 24px;
         }
 
         nav a {
@@ -248,7 +263,10 @@
 <body>
     <header>
         <div class="container header-content">
-            <a href="/" class="logo">Agentic<span>Forge</span></a>
+            <a href="/" class="logo">
+                <img src="assets/logo.png" alt="Agentic Forge Logo">
+                Agentic<span>Forge</span>
+            </a>
             <nav>
                 <a href="https://github.com/agentic-forge">GitHub</a>
                 <a href="#features">Features</a>
@@ -259,6 +277,7 @@
     <main>
         <section class="hero">
             <div class="container">
+                <img src="assets/logo.png" alt="Agentic Forge" class="hero-logo">
                 <div class="badge"><span>*</span> Experimental Project</div>
                 <h1>Build <span>Efficient</span> AI Agents</h1>
                 <p class="subtitle">
