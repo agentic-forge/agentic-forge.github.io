@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaces - Agentic Forge</title>
+    <meta name="description" content="CLI, Web UI, WebSocket API, and Python SDK interfaces for Agentic Forge.">
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="../" class="logo">
+                <img src="../assets/logo.png" alt="Agentic Forge Logo">
+                Agentic<span>Forge</span>
+            </a>
+            <nav>
+                <a href="../">Home</a>
+                <a href="./" class="active">Docs</a>
+                <a href="https://github.com/agentic-forge">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="docs-layout">
+            <aside class="docs-sidebar">
+                <h4>Documentation</h4>
+                <ul>
+                    <li><a href="./">Architecture</a></li>
+                    <li><a href="./orchestrator.html">Orchestrator</a></li>
+                    <li><a href="./armory.html">Armory</a></li>
+                    <li><a href="./tool-rag.html">Tool RAG</a></li>
+                    <li><a href="./interfaces.html" class="active">Interfaces</a></li>
+                </ul>
+            </aside>
+
+            <article class="docs-content">
+                <h1><span>Interfaces</span></h1>
+                <p class="lead">
+                    Multiple ways to interact with Agentic Forge: CLI for terminal users,
+                    WebSocket API for real-time applications, and Python SDK for direct integration.
+                </p>
+
+                <h2>Interface Overview</h2>
+
+                <div class="architecture-diagram">
+<pre>
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│     CLI      │  │   Web Chat   │  │  Admin UI    │  │   Python     │
+│  (terminal)  │  │     UI       │  │(Armory mgmt) │  │    SDK       │
+└──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘
+       │                 │                 │                 │
+       │ (subprocess)    │ (WebSocket)     │ (REST)          │ (import)
+       │                 │                 │                 │
+       ▼                 ▼                 ▼                 ▼
+┌────────────────────────────────────────────────────────────────────┐
+│                       ORCHESTRATOR API                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │  WebSocket   │  │     SSE      │  │   Python     │              │
+│  │  (bi-direct) │  │  (streaming) │  │   Import     │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+└────────────────────────────────────────────────────────────────────┘
+</pre>
+                </div>
+
+                <h2>Why WebSocket over REST?</h2>
+                <p>
+                    REST's request-response model doesn't fit LLM agents well:
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Challenge</th>
+                            <th>REST Problem</th>
+                            <th>WebSocket Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Streaming tokens</td>
+                            <td>Wait for complete response</td>
+                            <td>Stream as generated</td>
+                        </tr>
+                        <tr>
+                            <td>Long-running tasks</td>
+                            <td>Timeouts, no progress</td>
+                            <td>Persistent connection</td>
+                        </tr>
+                        <tr>
+                            <td>Stateful conversations</td>
+                            <td>Resend full context</td>
+                            <td>Session maintained</td>
+                        </tr>
+                        <tr>
+                            <td>Cancel/feedback</td>
+                            <td>Can't interrupt</td>
+                            <td>Bi-directional messages</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Recommended: WebSocket + REST Hybrid</h2>
+
+                <div class="architecture-diagram">
+<pre>
+WebSocket /ws/chat                    REST /api/v1/*
+─────────────────                     ─────────────────
+• Conversations (streaming)           • Health check
+• Token streaming                     • List conversations
+• Tool call progress                  • Get conversation history
+• Cancel requests                     • Configuration
+• User feedback mid-stream            • Model/tool management
+
+Best for: Real-time chat              Best for: Management, CRUD
+</pre>
+                </div>
+
+                <h2>WebSocket Protocol</h2>
+
+                <h3>Client → Server</h3>
+<pre><code>// Send a chat message
+{
+  "type": "chat",
+  "payload": {
+    "conversation_id": "optional-id",
+    "message": "Search for AI news",
+    "system_prompt": "You are a research assistant",
+    "model": "smart"
+  }
+}
+
+// Cancel a request
+{
+  "type": "cancel",
+  "payload": {
+    "conversation_id": "conv-123"
+  }
+}</code></pre>
+
+                <h3>Server → Client</h3>
+<pre><code>// Token streaming
+{
+  "type": "token",
+  "conversation_id": "conv-123",
+  "payload": {
+    "token": "The",
+    "cumulative": "The"
+  }
+}
+
+// Tool call event
+{
+  "type": "tool_call",
+  "conversation_id": "conv-123",
+  "payload": {
+    "tool_name": "brave_search",
+    "arguments": {"query": "AI news 2025"},
+    "status": "executing"
+  }
+}
+
+// Completion
+{
+  "type": "complete",
+  "conversation_id": "conv-123",
+  "payload": {
+    "response": "Here's what I found...",
+    "usage": {
+      "prompt_tokens": 150,
+      "completion_tokens": 200,
+      "total_cost": 0.003
+    }
+  }
+}</code></pre>
+
+                <h2>Python SDK</h2>
+                <p>For Python projects, direct import is the cleanest approach:</p>
+
+<pre><code>from agentic_forge import Orchestrator, ModelRouter, ToolRouter
+
+# Setup
+orchestrator = Orchestrator(
+    model_router=ModelRouter(...),
+    tool_router=ToolRouter(...)
+)
+
+# Synchronous (simple scripts)
+result = orchestrator.run_sync("Search for AI news")
+print(result.content)
+
+# Async (applications)
+async def main():
+    result = await orchestrator.run("Search for AI news")
+    print(result.content)
+
+# Streaming
+async for event in orchestrator.run_stream("Search..."):
+    if event.type == "token":
+        print(event.token, end="", flush=True)
+    elif event.type == "tool_call":
+        print(f"\n[Calling {event.tool_name}...]")
+
+# With hooks for observability
+@orchestrator.on("tool_calls")
+def log_tools(data):
+    print(f"Tools: {[c.name for c in data['calls']]}")</code></pre>
+
+                <h2>CLI Interface</h2>
+
+                <h3>Commands</h3>
+<pre><code># Interactive chat
+agentic-forge chat
+
+# Single query
+agentic-forge run "Search for AI news and summarize"
+
+# With options
+agentic-forge run "Complex task" \
+  --model smart \
+  --max-iterations 20 \
+  --output json
+
+# Connect to remote orchestrator
+agentic-forge chat --server ws://localhost:8000/ws/chat</code></pre>
+
+                <h3>Interactive Mode</h3>
+<pre><code>$ agentic-forge chat
+
+Agentic Forge v0.1.0
+Connected to Armory at localhost:8000
+Using model: gpt-4o
+
+You: Search for recent AI news
+
+[Calling brave_search("AI news 2025")...]
+Found 10 results
+
+Here are the top AI news stories from today:
+1. ...
+
+You: /quit</code></pre>
+
+                <h2>Armory Admin API</h2>
+                <p>REST API for managing the Armory:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GET</td>
+                            <td>/api/v1/sources</td>
+                            <td>List registered MCP servers</td>
+                        </tr>
+                        <tr>
+                            <td>POST</td>
+                            <td>/api/v1/sources</td>
+                            <td>Register new MCP server</td>
+                        </tr>
+                        <tr>
+                            <td>DELETE</td>
+                            <td>/api/v1/sources/{id}</td>
+                            <td>Remove MCP server</td>
+                        </tr>
+                        <tr>
+                            <td>GET</td>
+                            <td>/api/v1/tools</td>
+                            <td>List all available tools</td>
+                        </tr>
+                        <tr>
+                            <td>GET</td>
+                            <td>/api/v1/health</td>
+                            <td>Health check</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Non-Python Integration</h2>
+                <p>
+                    For projects not written in Python, use the WebSocket API:
+                </p>
+
+<pre><code>// JavaScript/TypeScript
+const ws = new WebSocket('ws://localhost:8000/ws/chat');
+
+ws.onopen = () => {
+  ws.send(JSON.stringify({
+    type: 'chat',
+    payload: { message: 'Search for AI news' }
+  }));
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  switch (data.type) {
+    case 'token':
+      process.stdout.write(data.payload.token);
+      break;
+    case 'tool_call':
+      console.log(`\n[${data.payload.tool_name}]`);
+      break;
+    case 'complete':
+      console.log('\nDone!');
+      break;
+  }
+};</code></pre>
+
+                <h2>Summary</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Interface</th>
+                            <th>Use Case</th>
+                            <th>Protocol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Python SDK</td>
+                            <td>Python applications</td>
+                            <td>Direct import</td>
+                        </tr>
+                        <tr>
+                            <td>WebSocket API</td>
+                            <td>Web/mobile, non-Python</td>
+                            <td>WebSocket</td>
+                        </tr>
+                        <tr>
+                            <td>SSE API</td>
+                            <td>Simple streaming</td>
+                            <td>HTTP + SSE</td>
+                        </tr>
+                        <tr>
+                            <td>CLI</td>
+                            <td>Terminal users</td>
+                            <td>Subprocess</td>
+                        </tr>
+                        <tr>
+                            <td>Admin API</td>
+                            <td>Armory management</td>
+                            <td>REST</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Agentic Forge &copy; 2025 &middot; <a href="https://github.com/agentic-forge">GitHub</a></p>
+        </div>
+    </footer>
+</body>
+</html>

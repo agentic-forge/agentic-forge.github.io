@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armory - Agentic Forge</title>
+    <meta name="description" content="The Armory is a protocol gateway that aggregates tools and provides a unified MCP interface.">
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="../" class="logo">
+                <img src="../assets/logo.png" alt="Agentic Forge Logo">
+                Agentic<span>Forge</span>
+            </a>
+            <nav>
+                <a href="../">Home</a>
+                <a href="./" class="active">Docs</a>
+                <a href="https://github.com/agentic-forge">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="docs-layout">
+            <aside class="docs-sidebar">
+                <h4>Documentation</h4>
+                <ul>
+                    <li><a href="./">Architecture</a></li>
+                    <li><a href="./orchestrator.html">Orchestrator</a></li>
+                    <li><a href="./armory.html" class="active">Armory</a></li>
+                    <li><a href="./tool-rag.html">Tool RAG</a></li>
+                    <li><a href="./interfaces.html">Interfaces</a></li>
+                </ul>
+            </aside>
+
+            <article class="docs-content">
+                <h1><span>Armory</span></h1>
+                <p class="lead">
+                    The Protocol Gateway that aggregates multiple tool sources and exposes them
+                    through a unified MCP interface, with built-in protocol translation and token optimization.
+                </p>
+
+                <h2>Why "Armory"?</h2>
+                <p>
+                    Just as a forge creates tools and an armory stores them, the Armory is where you go
+                    to access all your tools. It aggregates tools from various sources and provides them
+                    through a single, consistent interface.
+                </p>
+
+                <h2>Architecture</h2>
+
+                <div class="architecture-diagram">
+<pre>
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              ARMORY                                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────────┐ │
+│  │                    MCP SERVER INTERFACE                                 │ │
+│  │  Exposes: tools/list, tools/call, resources/*, prompts/*               │ │
+│  │  Transport: Streamable HTTP (single /mcp endpoint)                      │ │
+│  └────────────────────────────────────────────────────────────────────────┘ │
+│                                      │                                       │
+│  ┌──────────────┐  ┌──────────────┐  │  ┌──────────────┐  ┌──────────────┐ │
+│  │     Tool     │  │   Tool RAG   │  │  │   Protocol   │  │    Result    │ │
+│  │   Registry   │  │  (optional)  │◄─┼─►│   Adapters   │  │ Transformer  │ │
+│  └──────────────┘  └──────────────┘  │  └──────────────┘  └──────────────┘ │
+│                                      │                                       │
+└──────────────────────────────────────┼───────────────────────────────────────┘
+                                       │
+                    ┌──────────────────┼──────────────────┐
+                    │                  │                  │
+                    ▼                  ▼                  ▼
+             ┌───────────┐      ┌───────────┐      ┌───────────┐
+             │MCP Servers│      │ REST APIs │      │  Local    │
+             │           │      │           │      │ Functions │
+             └───────────┘      └───────────┘      └───────────┘
+</pre>
+                </div>
+
+                <h2>Key Features</h2>
+
+                <h3>Unified MCP Interface</h3>
+                <p>
+                    Orchestrators connect to the Armory as a single MCP server. They don't need to know
+                    about the various backends - they just see a collection of tools.
+                </p>
+
+<pre><code># Pydantic AI connects to Armory as MCP server
+from pydantic_ai import Agent
+from pydantic_ai.mcp import MCPServerSSE
+
+armory = MCPServerSSE('http://localhost:8000/mcp')
+agent = Agent('openai:gpt-4o', toolsets=[armory])
+
+async with agent.run_mcp_servers():
+    # All tools from all backends are available
+    result = await agent.run("Search and summarize")</code></pre>
+
+                <h3>Protocol Translation</h3>
+                <p>
+                    The Armory translates between different protocol formats automatically:
+                </p>
+
+                <div class="architecture-diagram">
+<pre>
+Model outputs (trained format)     Pydantic AI          Armory translates
+───────────────────────────────    normalizes           to backend format
+
+┌─────────────────────┐           ┌──────────────┐     ┌──────────────┐
+│ GPT-4:              │           │              │     │              │
+│ tool_calls[].func.. │──┐        │   Internal   │     │  → MCP       │
+└─────────────────────┘  │        │   Schema     │     │  → REST      │
+                         ├───────>│   (unified)  │────>│  → OpenAI FC │
+┌─────────────────────┐  │        │              │     │  → Local     │
+│ Claude:             │──┤        │              │     │              │
+│ tool_use.{name,in.. │  │        └──────────────┘     └──────────────┘
+└─────────────────────┘  │
+</pre>
+                </div>
+
+                <h3>Result Transformation (JSON → TOON)</h3>
+                <p>
+                    Tool results are converted to TOON format for token efficiency:
+                </p>
+
+<pre><code>class ResultTransformer:
+    def transform(self, result: Any) -> str:
+        # TOON for tabular data (30-40% savings)
+        if self._is_tabular(result):
+            return toon.encode(result)
+
+        # JSON for complex nested structures
+        return json.dumps(result)</code></pre>
+
+                <p>
+                    <strong>Before (JSON):</strong>
+                </p>
+<pre><code>[{"name": "John", "email": "john@x.com", "status": "active"},
+ {"name": "Jane", "email": "jane@x.com", "status": "pending"}]</code></pre>
+
+                <p>
+                    <strong>After (TOON):</strong>
+                </p>
+<pre><code>@users [2] {name|email|status}
+John | john@x.com | active
+Jane | jane@x.com | pending</code></pre>
+
+                <p>
+                    ~40% fewer tokens, and LLMs actually understand TOON <em>better</em> than JSON
+                    (73.9% accuracy vs 69.7% in benchmarks).
+                </p>
+
+                <h2>Transport: Streamable HTTP</h2>
+                <p>
+                    The Armory uses MCP's Streamable HTTP transport (not the deprecated SSE transport):
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transport</th>
+                            <th>Status</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>stdio</td>
+                            <td>Active</td>
+                            <td>Local subprocess</td>
+                        </tr>
+                        <tr>
+                            <td>HTTP+SSE</td>
+                            <td><strong>Deprecated</strong></td>
+                            <td>Legacy remote</td>
+                        </tr>
+                        <tr>
+                            <td>Streamable HTTP</td>
+                            <td><strong>Current</strong></td>
+                            <td>Remote (single endpoint)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Benefits of Streamable HTTP:</p>
+                <ul>
+                    <li><strong>Single endpoint</strong> - <code>/mcp</code> handles everything</li>
+                    <li><strong>Resumable streams</strong> - <code>Last-Event-ID</code> header</li>
+                    <li><strong>Session management</strong> - <code>Mcp-Session-Id</code> header</li>
+                    <li><strong>Infrastructure friendly</strong> - Works with proxies, load balancers</li>
+                </ul>
+
+                <h2>Protocol Adapters</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Adapter</th>
+                            <th>Backend Type</th>
+                            <th>Translation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MCPAdapter</td>
+                            <td>MCP Servers</td>
+                            <td>Mostly passthrough</td>
+                        </tr>
+                        <tr>
+                            <td>RESTAdapter</td>
+                            <td>REST APIs</td>
+                            <td>HTTP methods, auth headers</td>
+                        </tr>
+                        <tr>
+                            <td>OpenAIFCAdapter</td>
+                            <td>OpenAI FC services</td>
+                            <td>OpenAI function format</td>
+                        </tr>
+                        <tr>
+                            <td>LocalAdapter</td>
+                            <td>Python functions</td>
+                            <td>Direct invocation</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Configuration</h2>
+
+<pre><code># armory.yaml
+server:
+  host: "0.0.0.0"
+  port: 8000
+  transport: "streamable_http"
+
+tool_rag:
+  enabled: true
+  embedding_model: "text-embedding-3-small"
+  default_top_k: 10
+
+result_transformer:
+  toon_enabled: true
+
+sources:
+  - type: mcp
+    url: "http://localhost:3001/mcp"
+    prefix: "fs_"
+
+  - type: mcp
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-server-brave-search"]
+    prefix: "brave_"
+
+  - type: rest
+    base_url: "https://api.weather.com"
+    tools:
+      - name: "get_weather"
+        endpoint: "/current"</code></pre>
+
+                <h2>Usage</h2>
+
+<pre><code>from agentic_forge import Armory
+
+# Load from config
+armory = Armory.from_config("armory.yaml")
+
+# Or configure programmatically
+armory = Armory()
+await armory.register_mcp_server("http://localhost:3001/mcp", prefix="fs_")
+await armory.register_rest_api("https://api.weather.com", tools=[...])
+await armory.register_local_function(my_function)
+
+# Start the server
+await armory.start()  # Exposes MCP at http://localhost:8000/mcp</code></pre>
+
+                <h2>Benefits</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Problem</th>
+                            <th>Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Multiple tool sources</td>
+                            <td>Single MCP interface</td>
+                        </tr>
+                        <tr>
+                            <td>Different protocols</td>
+                            <td>Protocol adapters translate</td>
+                        </tr>
+                        <tr>
+                            <td>JSON wastes tokens</td>
+                            <td>TOON transformation</td>
+                        </tr>
+                        <tr>
+                            <td>Too many tools in context</td>
+                            <td>Tool RAG filters dynamically</td>
+                        </tr>
+                        <tr>
+                            <td>Managing MCP servers</td>
+                            <td>Centralized configuration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Agentic Forge &copy; 2025 &middot; <a href="https://github.com/agentic-forge">GitHub</a></p>
+        </div>
+    </footer>
+</body>
+</html>
