@@ -50,7 +50,44 @@
                     through a single, consistent interface.
                 </p>
 
+                <h2>The OpenRouter Analogy</h2>
+                <p>
+                    <strong>Armory is to MCP servers what OpenRouter is to LLMs</strong> &mdash; one unified interface to many backends.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>OpenRouter</th>
+                            <th>Armory</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Aggregates</strong></td>
+                            <td>LLM providers</td>
+                            <td>MCP servers &amp; tool sources</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Protocol</strong></td>
+                            <td>OpenAI-compatible API</td>
+                            <td>MCP (Streamable HTTP)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Client sees</strong></td>
+                            <td>One API, many models</td>
+                            <td>One endpoint, many tools</td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <h2>Architecture</h2>
+
+                <h3>Hybrid Gateway Pattern</h3>
+                <p>
+                    Armory exposes multiple MCP endpoints, giving clients flexibility:
+                </p>
 
                 <div class="architecture-diagram">
 <pre>
@@ -58,28 +95,39 @@
 │                              ARMORY                                          │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
-│  ┌────────────────────────────────────────────────────────────────────────┐ │
-│  │                    MCP SERVER INTERFACE                                 │ │
-│  │  Exposes: tools/list, tools/call, resources/*, prompts/*               │ │
-│  │  Transport: Streamable HTTP (single /mcp endpoint)                      │ │
-│  └────────────────────────────────────────────────────────────────────────┘ │
-│                                      │                                       │
-│  ┌──────────────┐  ┌──────────────┐  │  ┌──────────────┐  ┌──────────────┐ │
-│  │     Tool     │  │   Tool RAG   │  │  │   Protocol   │  │    Result    │ │
-│  │   Registry   │  │  (optional)  │◄─┼─►│   Adapters   │  │ Transformer  │ │
-│  └──────────────┘  └──────────────┘  │  └──────────────┘  └──────────────┘ │
-│                                      │                                       │
-└──────────────────────────────────────┼───────────────────────────────────────┘
+│   Endpoints (all valid MCP - path is flexible per spec):                     │
+│   ├── /mcp              → Aggregated (all tools with prefixes)              │
+│   ├── /mcp/weather      → Direct access to weather server                   │
+│   ├── /mcp/search       → Direct access to search server                    │
+│   ├── /mcp/notes        → Direct access to notes server                     │
+│   └── /.well-known/mcp.json → Discovery metadata                            │
+│                                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │
+│  │     Tool     │  │   Tool RAG   │  │   Protocol   │  │    Result    │    │
+│  │   Registry   │  │  (optional)  │  │   Adapters   │  │ Transformer  │    │
+│  └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘    │
+│                                                                              │
+└──────────────────────────────────────┬───────────────────────────────────────┘
                                        │
-                    ┌──────────────────┼──────────────────┐
-                    │                  │                  │
-                    ▼                  ▼                  ▼
-             ┌───────────┐      ┌───────────┐      ┌───────────┐
-             │MCP Servers│      │ REST APIs │      │  Local    │
-             │           │      │           │      │ Functions │
-             └───────────┘      └───────────┘      └───────────┘
+        ┌──────────────────────────────┼──────────────────────────────┐
+        │                              │                              │
+        ▼                              ▼                              ▼
+┌───────────────┐              ┌───────────────┐              ┌───────────────┐
+│    CUSTOM     │              │   EXISTING    │              │    REMOTE     │
+│   (FastMCP)   │              │  (npm/local)  │              │   (hosted)    │
+├───────────────┤              ├───────────────┤              ├───────────────┤
+│ weather       │              │ brave-search  │              │ github        │
+│ (Open-Meteo)  │              │ fetch         │              │ (GitHub host) │
+│ uptime        │              │ filesystem    │              │               │
+│ notes         │              │ time          │              │               │
+└───────────────┘              └───────────────┘              └───────────────┘
 </pre>
                 </div>
+
+                <p>
+                    <strong>Why hybrid?</strong> Clients wanting simplicity connect to <code>/mcp</code> (one connection, all tools).
+                    Clients wanting isolation connect to <code>/mcp/{server}</code> (specific server only).
+                </p>
 
                 <h2>Key Features</h2>
 
@@ -228,6 +276,39 @@ Jane | jane@x.com | pending</code></pre>
                     </tbody>
                 </table>
 
+                <h2>MCP Server Strategy</h2>
+                <p>
+                    Don't reinvent the wheel. Use existing MCP servers where available, build custom only when needed.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Servers</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Use Existing</strong></td>
+                            <td>Brave Search, GitHub (remote), fetch, filesystem, time</td>
+                            <td>Well-tested, maintained by others</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Build Custom</strong></td>
+                            <td>weather (Open-Meteo), uptime checker, notes</td>
+                            <td>FastMCP + Python, learn the patterns</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Free APIs for Custom Servers</h3>
+                <ul>
+                    <li><strong>Open-Meteo</strong> &mdash; Weather data, no API key required (<a href="https://open-meteo.com">open-meteo.com</a>)</li>
+                    <li><strong>Brave Search</strong> &mdash; 2,000 queries/month free (<a href="https://brave.com/search/api">brave.com/search/api</a>)</li>
+                </ul>
+
                 <h2>Configuration</h2>
 
 <pre><code># armory.yaml
@@ -245,20 +326,35 @@ result_transformer:
   toon_enabled: true
 
 sources:
+  # Existing MCP servers (npm packages)
   - type: mcp
-    url: "http://localhost:3001/mcp"
-    prefix: "fs_"
-
-  - type: mcp
+    name: "brave-search"
     command: "npx"
-    args: ["-y", "@anthropic/mcp-server-brave-search"]
-    prefix: "brave_"
+    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+    env:
+      BRAVE_API_KEY: "${BRAVE_API_KEY}"
 
-  - type: rest
-    base_url: "https://api.weather.com"
-    tools:
-      - name: "get_weather"
-        endpoint: "/current"</code></pre>
+  - type: mcp
+    name: "filesystem"
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "/allowed/path"]
+
+  # Remote MCP servers (hosted by provider)
+  - type: mcp
+    name: "github"
+    url: "https://api.github.com/mcp"
+    auth: oauth
+
+  # Custom MCP servers (FastMCP)
+  - type: mcp
+    name: "weather"
+    command: "python"
+    args: ["-m", "forge_mcp_servers.weather"]
+
+  - type: mcp
+    name: "notes"
+    command: "python"
+    args: ["-m", "forge_mcp_servers.notes"]</code></pre>
 
                 <h2>Usage</h2>
 
