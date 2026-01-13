@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 340">
+  <defs>
+    <marker id="route-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+    <marker id="route-arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="340" fill="none"/>
+
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#e2e8f0">Model Routing Flow</text>
+
+  <!-- Input -->
+  <rect x="40" y="55" width="120" height="45" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="100" y="75" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">Model Input</text>
+  <text x="100" y="90" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#60a5fa">"claude-sonnet-4"</text>
+
+  <!-- Arrow to first decision -->
+  <line x1="160" y1="77" x2="200" y2="77" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#route-arrow)"/>
+
+  <!-- Decision 1: Has prefix? -->
+  <polygon points="280,47 340,77 280,107 220,77" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="280" y="73" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#c4b5fd">Has prefix?</text>
+  <text x="280" y="85" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a5b4fc">openai:, anthropic:</text>
+
+  <!-- Yes path from decision 1 -->
+  <line x1="340" y1="77" x2="400" y2="77" stroke="#10b981" stroke-width="1.5" marker-end="url(#route-arrow-green)"/>
+  <text x="370" y="68" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#6ee7b7">yes</text>
+
+  <!-- Result 1: Use specified provider -->
+  <rect x="410" y="55" width="130" height="45" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="475" y="75" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#a7f3d0">Use Provider</text>
+  <text x="475" y="90" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">from prefix</text>
+
+  <!-- No path from decision 1 -->
+  <line x1="280" y1="107" x2="280" y2="140" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#route-arrow)"/>
+  <text x="290" y="125" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">no</text>
+
+  <!-- Decision 2: Has slash? -->
+  <polygon points="280,140 340,170 280,200 220,170" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="280" y="166" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#c4b5fd">Has slash?</text>
+  <text x="280" y="178" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a5b4fc">provider/model</text>
+
+  <!-- Yes path from decision 2 -->
+  <line x1="340" y1="170" x2="400" y2="170" stroke="#10b981" stroke-width="1.5" marker-end="url(#route-arrow-green)"/>
+  <text x="370" y="161" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#6ee7b7">yes</text>
+
+  <!-- Result 2: OpenRouter -->
+  <rect x="410" y="148" width="130" height="45" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="475" y="168" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#a7f3d0">OpenRouter</text>
+  <text x="475" y="183" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">universal gateway</text>
+
+  <!-- No path from decision 2 -->
+  <line x1="280" y1="200" x2="280" y2="233" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#route-arrow)"/>
+  <text x="290" y="218" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">no</text>
+
+  <!-- Decision 3: Known pattern? -->
+  <polygon points="280,233 340,263 280,293 220,263" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="280" y="259" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#c4b5fd">Known</text>
+  <text x="280" y="271" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a5b4fc">pattern?</text>
+
+  <!-- Yes path from decision 3 -->
+  <line x1="340" y1="263" x2="400" y2="263" stroke="#10b981" stroke-width="1.5" marker-end="url(#route-arrow-green)"/>
+  <text x="370" y="254" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#6ee7b7">yes</text>
+
+  <!-- Result 3: Auto-detect -->
+  <rect x="410" y="241" width="130" height="45" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="475" y="261" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#a7f3d0">Auto-detect</text>
+  <text x="475" y="276" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">gpt-* → OpenAI</text>
+
+  <!-- No/fallback path from decision 3 -->
+  <path d="M 280 293 L 280 310 L 540 310 L 540 170 L 540 170" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,2" fill="none"/>
+  <text x="410" y="325" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#f59e0b">fallback to OpenRouter</text>
+
+  <!-- Example annotations -->
+  <rect x="560" y="55" width="120" height="105" rx="4" fill="#1e1b4b" stroke="#4c1d95" stroke-width="1"/>
+  <text x="620" y="72" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#a5b4fc">Examples</text>
+  <text x="575" y="90" font-family="monospace" font-size="8" fill="#94a3b8">openai:gpt-4o</text>
+  <text x="575" y="105" font-family="monospace" font-size="8" fill="#94a3b8">anthropic/claude-4</text>
+  <text x="575" y="120" font-family="monospace" font-size="8" fill="#94a3b8">gpt-4o</text>
+  <text x="575" y="135" font-family="monospace" font-size="8" fill="#94a3b8">claude-sonnet-4</text>
+  <text x="575" y="150" font-family="monospace" font-size="8" fill="#94a3b8">gemini-2.0-flash</text>
+</svg>

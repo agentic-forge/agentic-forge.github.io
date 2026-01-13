@@ -6,6 +6,13 @@ Technical articles about building efficient AI agents with Agentic Forge.
 
 <div class="blog-list">
 
+### [Getting Started with Agentic Forge](/blog/getting-started-tutorial)
+*January 2026*
+
+Complete tutorial on setting up the full Agentic Forge stack with Docker Compose—from clone to running chat interface with tools.
+
+---
+
 ### [Building a Multi-Provider AI Orchestrator](/blog/multi-provider-orchestrator)
 *January 2026*
 
@@ -14,23 +21,16 @@ How we built a model-agnostic orchestrator that routes to OpenRouter, OpenAI, An
 ---
 
 ### [Armory: An MCP Gateway for AI Agents](/blog/armory-mcp-gateway)
-*Coming Soon*
+*January 2026*
 
-Deep-dive into our MCP protocol gateway that aggregates multiple tool servers into a unified interface.
+Deep-dive into our MCP protocol gateway that aggregates multiple tool servers into a unified interface with namespacing, metrics, and an admin UI.
 
 ---
 
 ### [Streaming Tool Calls in Real-Time](/blog/streaming-tool-calls)
-*Coming Soon*
+*January 2026*
 
-How we built real-time SSE streaming with tool call events, thinking tokens, and a reactive UI.
-
----
-
-### [Getting Started with Agentic Forge](/blog/getting-started-tutorial)
-*Coming Soon*
-
-Complete tutorial on setting up the full Agentic Forge stack with Docker Compose.
+How we built real-time SSE streaming with tool call events, thinking tokens, and a reactive Vue.js UI that shows every step of the agent's work.
 
 </div>
 

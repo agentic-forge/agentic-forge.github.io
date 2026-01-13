@@ -29,6 +29,8 @@ Our orchestrator adds a few conveniences on top of Pydantic AI:
 3. **Dynamic model discovery** - Fetch and cache available models automatically
 4. **SSE streaming** - Ready for real-time chat interfaces
 
+![Multi-Provider Architecture](/diagrams/orchestrator-architecture.svg)
+
 ## Flexible Model Routing
 
 The orchestrator accepts any model identifier and automatically routes it to the correct provider:
@@ -50,12 +52,7 @@ anthropic/claude-sonnet-4
 deepseek/deepseek-r1
 ```
 
-The routing logic:
-
-1. **Explicit prefix** - If the model starts with a known provider prefix (`openai:`, `anthropic:`, etc.), we use it directly
-2. **Slash format** - Models with a slash (like `anthropic/claude-sonnet-4`) route through OpenRouter
-3. **Auto-detection** - Plain model names are matched against known patterns and routed to the appropriate provider
-4. **Intelligent fallback** - If the direct API key isn't configured, we fall back to OpenRouter
+![Model Routing Flow](/diagrams/orchestrator-routing.svg)
 
 This means users can configure just one API key (OpenRouter) and access models from multiple providers—or use direct API keys for lower latency when available.
 

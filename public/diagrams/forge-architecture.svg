@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380">
+  <defs>
+    <marker id="arch-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arch-arr-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="380" fill="none"/>
+
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#e2e8f0">Agentic Forge Architecture</text>
+
+  <!-- User -->
+  <circle cx="80" cy="120" r="25" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="80" y="125" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">User</text>
+
+  <!-- Arrow to UI -->
+  <line x1="105" y1="120" x2="155" y2="120" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arch-arr)"/>
+
+  <!-- forge-ui -->
+  <rect x="165" y="90" width="120" height="60" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="225" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">forge-ui</text>
+  <text x="225" y="132" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">:4040</text>
+
+  <!-- Arrow to Orchestrator -->
+  <line x1="285" y1="120" x2="335" y2="120" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arch-arr)"/>
+  <text x="310" y="110" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">SSE</text>
+
+  <!-- forge-orchestrator -->
+  <rect x="345" y="80" width="140" height="80" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="415" y="110" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">forge-orchestrator</text>
+  <text x="415" y="127" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">:4041</text>
+  <text x="415" y="147" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">Agent Loop</text>
+
+  <!-- LLM Providers -->
+  <path d="M 485 100 L 530 100 L 530 60 L 580 60" stroke="#8b5cf6" stroke-width="1.5" fill="none" marker-end="url(#arch-arr)"/>
+  <rect x="590" y="40" width="90" height="40" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="635" y="57" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a7f3d0">LLM APIs</text>
+  <text x="635" y="70" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#6ee7b7">OpenRouter, etc</text>
+
+  <!-- Arrow to Armory -->
+  <path d="M 415 160 L 415 200" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arch-arr-orange)"/>
+  <text x="430" y="185" font-family="system-ui, sans-serif" font-size="8" fill="#fbbf24">MCP</text>
+
+  <!-- forge-armory -->
+  <rect x="345" y="210" width="140" height="70" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="2"/>
+  <text x="415" y="235" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#fcd34d">forge-armory</text>
+  <text x="415" y="252" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24">:4042</text>
+  <text x="415" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a5b4fc">MCP Gateway</text>
+
+  <!-- Arrows to MCP servers -->
+  <path d="M 345 245 L 270 245" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#arch-arr-orange)"/>
+  <path d="M 485 245 L 560 245" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#arch-arr-orange)"/>
+
+  <!-- MCP Weather -->
+  <rect x="140" y="220" width="120" height="50" rx="6" fill="#1e1b4b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="200" y="242" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fcd34d">mcp-weather</text>
+  <text x="200" y="258" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a5b4fc">:4050</text>
+
+  <!-- MCP Web Search -->
+  <rect x="570" y="220" width="120" height="50" rx="6" fill="#1e1b4b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="630" y="242" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fcd34d">mcp-web-search</text>
+  <text x="630" y="258" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a5b4fc">:4051</text>
+
+  <!-- forge-anvil (development tool) -->
+  <rect x="40" y="300" width="120" height="50" rx="6" fill="#1e1b4b" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="100" y="322" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#c4b5fd">forge-anvil</text>
+  <text x="100" y="338" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">MCP testing tool</text>
+
+  <!-- Arrow from anvil -->
+  <path d="M 160 325 L 200 270" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4,2" fill="none"/>
+
+  <!-- Legend -->
+  <g transform="translate(420, 310)">
+    <text x="0" y="0" font-family="system-ui, sans-serif" font-size="10" font-weight="500" fill="#94a3b8">Legend</text>
+    <line x1="0" y1="15" x2="30" y2="15" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="40" y="19" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">REST/SSE</text>
+    <line x1="0" y1="32" x2="30" y2="32" stroke="#f59e0b" stroke-width="2"/>
+    <text x="40" y="36" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">MCP Protocol</text>
+    <line x1="100" y1="15" x2="130" y2="15" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="140" y="19" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Dev tool</text>
+  </g>
+</svg>
