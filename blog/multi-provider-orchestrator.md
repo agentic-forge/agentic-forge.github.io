@@ -2,22 +2,34 @@
 
 *January 2026*
 
-One of the first decisions when building an AI agent is choosing which LLM provider to use. OpenAI? Anthropic? Google? The answer is increasingly: **all of them**.
+When building AI agents, you often need to support multiple LLM providers. Different teams have different API keys. Researchers want to compare model behaviors. Production systems need fallback options.
 
-Different models excel at different tasks. Claude is great for nuanced reasoning. GPT-4o excels at code. Gemini offers competitive pricing. And new reasoning models like DeepSeek R1 and OpenAI o1 bring chain-of-thought capabilities.
+We built the Forge Orchestrator as a ready-to-use reference implementation that handles multi-provider routing out of the box. This post explains our architecture and the key decisions we made.
 
-We built the Forge Orchestrator to make multi-provider support seamless. This post explains our architecture and the key decisions we made.
+## The Gap We're Filling
 
-## The Problem
+Modern AI frameworks like [LangChain](https://python.langchain.com/), [Pydantic AI](https://ai.pydantic.dev/), and [CrewAI](https://www.crewai.com/) are already model-agnostic at their core. They abstract away provider differences and let you swap models easily.
 
-Most AI frameworks assume you'll pick one provider and stick with it. But in practice, you want:
+So why build another orchestrator?
 
-1. **Model flexibility** - Switch models per-request based on task requirements
-2. **Cost optimization** - Use cheaper models for simple tasks
-3. **Fallback routing** - If one provider is down, use another
-4. **Unified interface** - Same API regardless of which provider handles the request
+**The gap isn't abstraction—it's integration.** These frameworks give you building blocks, but you still need to:
 
-## Our Solution: Provider-Agnostic Model Routing
+- Wire up a chat interface
+- Handle SSE streaming to a frontend
+- Manage tool execution with MCP servers
+- Configure model selection dynamically
+- Deploy everything together
+
+Agentic Forge provides a **working system out of the box**. Developers get a functional starting point they can customize. Researchers can focus on AI experiments instead of frontend architecture.
+
+Our orchestrator adds a few conveniences on top of Pydantic AI:
+
+1. **Flexible model routing** - Accept any model format and route it correctly
+2. **OpenRouter as universal fallback** - One API key to access 200+ models
+3. **Dynamic model discovery** - Fetch and cache available models automatically
+4. **SSE streaming** - Ready for real-time chat interfaces
+
+## Flexible Model Routing
 
 The orchestrator accepts any model identifier and automatically routes it to the correct provider:
 
@@ -29,8 +41,8 @@ anthropic:claude-sonnet-4-20250514
 google-gla:gemini-2.0-flash
 
 # Auto-detection (we figure out the provider)
-gpt-4o          → routes to OpenAI
-claude-sonnet-4 → routes to Anthropic
+gpt-4o           → routes to OpenAI
+claude-sonnet-4  → routes to Anthropic
 gemini-2.0-flash → routes to Google
 
 # OpenRouter format (always routes through OpenRouter)
@@ -38,173 +50,48 @@ anthropic/claude-sonnet-4
 deepseek/deepseek-r1
 ```
 
-## How It Works
+The routing logic:
 
-### 1. Model String Parsing
+1. **Explicit prefix** - If the model starts with a known provider prefix (`openai:`, `anthropic:`, etc.), we use it directly
+2. **Slash format** - Models with a slash (like `anthropic/claude-sonnet-4`) route through OpenRouter
+3. **Auto-detection** - Plain model names are matched against known patterns and routed to the appropriate provider
+4. **Intelligent fallback** - If the direct API key isn't configured, we fall back to OpenRouter
 
-When a request comes in with a model name, we first check if it already has a provider prefix:
-
-```python
-pydantic_providers = [
-    "openrouter:",
-    "openai:",
-    "anthropic:",
-    "google-gla:",
-    "groq:",
-    "mistral:",
-]
-
-# If already prefixed, use as-is
-if any(model.startswith(p) for p in pydantic_providers):
-    return model
-```
-
-### 2. OpenRouter Format Detection
-
-Models with a slash (like `anthropic/claude-sonnet-4`) are in OpenRouter format. These get routed through OpenRouter automatically:
-
-```python
-if "/" in model:
-    return f"openrouter:{model}"
-```
-
-This is useful because OpenRouter provides access to 200+ models through a single API key.
-
-### 3. Auto-Detection by Model Name
-
-For plain model names, we detect the provider based on naming patterns:
-
-```python
-openai_patterns = ["gpt-", "o1", "o3", "chatgpt"]
-anthropic_patterns = ["claude"]
-google_patterns = ["gemini", "palm"]
-
-model_lower = model.lower()
-
-if any(pattern in model_lower for pattern in openai_patterns):
-    if settings.openai_api_key:
-        return "openai"
-    # Fall back to OpenRouter if no direct API key
-    return None
-```
-
-### 4. Intelligent Fallbacks
-
-Here's the key insight: if a user requests `gpt-4o` but doesn't have an OpenAI API key configured, we can still serve the request through OpenRouter (if they have that key):
-
-```python
-if any(pattern in model_lower for pattern in openai_patterns):
-    if self.settings.openai_api_key:
-        return "openai"  # Direct to OpenAI
-    elif self.settings.openrouter_api_key:
-        logger.info("OpenAI model requested but no OPENAI_API_KEY, using OpenRouter")
-        return None  # Will fall back to OpenRouter
-```
-
-This means users can configure just one API key (OpenRouter) and access models from multiple providers.
+This means users can configure just one API key (OpenRouter) and access models from multiple providers—or use direct API keys for lower latency when available.
 
 ## Dynamic Model Discovery
 
-Rather than hardcoding a list of available models, we fetch them from OpenRouter's API and cache the results:
+Rather than hardcoding a list of available models, we fetch them from OpenRouter's API and cache the results. The UI can then display an up-to-date model selector.
 
-```python
-class OpenRouterClient:
-    async def fetch_models(self) -> ModelsData:
-        url = f"{self.base_url}/models"
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url)
-            data = response.json()
+OpenRouter offers 200+ models, but that's overwhelming. We filter to a curated set:
 
-        return self._process_models(data["data"])
-```
+- **Provider whitelist** - Only include models from trusted providers
+- **Recency filter** - Keep only the top N models per provider (by release date)
+- **Include list** - Always include specific models (like reasoning/thinking models) regardless of filtering
 
-### Filtering and Curation
-
-OpenRouter offers 200+ models, but most users don't need that many choices. We filter to a curated set:
-
-```python
-# Only include models from trusted providers
-provider_whitelist = [
-    "anthropic", "openai", "google",
-    "deepseek", "moonshotai", "qwen"
-]
-
-# Keep top 3 models per provider (by release date)
-models_per_provider = 3
-
-# Always include reasoning/thinking models
-model_include_list = [
-    "anthropic/claude-3.7-sonnet:thinking",
-    "openai/o1",
-    "deepseek/deepseek-r1",
-    "qwen/qwq-32b",
-]
-```
-
-This gives users a focused list of ~20 high-quality models instead of an overwhelming 200+.
+This gives users a focused selection of high-quality models.
 
 ## Thinking Model Support
 
-Modern reasoning models like Claude 3.7 Sonnet with "extended thinking" and OpenAI o1 produce intermediate reasoning tokens. We capture and stream these:
-
-```python
-# Extract thinking from message history
-for msg in result.new_messages():
-    thinking = getattr(msg, 'thinking', None)
-    if thinking:
-        yield ThinkingEvent(
-            content=str(thinking),
-            cumulative=str(thinking)
-        )
-```
-
-The UI can then display this reasoning process, helping users understand how the model arrived at its answer.
+Modern reasoning models produce intermediate reasoning tokens—sometimes called "extended thinking" or "chain-of-thought" output. The orchestrator captures these and streams them as separate events, allowing the UI to display the reasoning process alongside the final answer.
 
 ## Stateless Architecture
 
-A key architectural decision: the orchestrator is **completely stateless**. Each request includes the full conversation history:
+The orchestrator is **completely stateless**. Each request includes the full conversation history. This enables:
 
-```python
-async def run_stream(
-    self,
-    user_message: str,
-    messages: list[Any] | None = None,  # Full history
-    system_prompt: str | None = None,
-    model: str | None = None,
-) -> AsyncIterator[SSEEvent]:
-```
-
-Benefits:
 - **Horizontal scaling** - Any orchestrator instance can handle any request
 - **Simple deployment** - No database, no session management
 - **Client control** - The UI owns the conversation state
 
 The trade-off is larger request payloads, but modern LLMs already handle long contexts efficiently.
 
-## Integration with Pydantic AI
+## Built on Pydantic AI
 
-We use [Pydantic AI](https://ai.pydantic.dev/) as the underlying framework. It provides:
-
-- Model abstraction across providers
-- Type-safe tool definitions
-- MCP (Model Context Protocol) support
-- Structured output validation
-
-```python
-from pydantic_ai import Agent
-from pydantic_ai.mcp import MCPServerStreamableHTTP
-
-# Create agent with MCP toolset
-mcp_server = MCPServerStreamableHTTP(settings.armory_url)
-agent = Agent(
-    model="openrouter:anthropic/claude-sonnet-4",
-    toolsets=[mcp_server],
-)
-```
+We use [Pydantic AI](https://ai.pydantic.dev/) as the underlying framework. It provides model abstraction across providers, type-safe tool definitions, MCP support, and structured output validation. Our orchestrator adds the routing, streaming, and integration layers on top.
 
 ## Configuration
 
-The orchestrator uses environment variables for configuration:
+The orchestrator uses environment variables:
 
 ```bash
 # At least one of these is required
