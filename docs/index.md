@@ -1,50 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architecture - Agentic Forge</title>
-    <meta name="description" content="Agentic Forge architecture overview and component documentation.">
-    <link rel="icon" type="image/png" href="../assets/logo.png">
-    <link rel="stylesheet" href="../assets/style.css">
-</head>
-<body>
-    <header>
-        <div class="container header-content">
-            <a href="../" class="logo">
-                <img src="../assets/logo.png" alt="Agentic Forge Logo">
-                Agentic<span>Forge</span>
-            </a>
-            <nav>
-                <a href="../">Home</a>
-                <a href="./" class="active">Docs</a>
-                <a href="https://github.com/agentic-forge">GitHub</a>
-            </nav>
-        </div>
-    </header>
+# Architecture Overview
 
-    <main class="container">
-        <div class="docs-layout">
-            <aside class="docs-sidebar">
-                <h4>Documentation</h4>
-                <ul>
-                    <li><a href="./" class="active">Architecture</a></li>
-                    <li><a href="./orchestrator.html">Orchestrator</a></li>
-                    <li><a href="./armory.html">Armory</a></li>
-                    <li><a href="./anvil.html">Anvil</a></li>
-                    <li><a href="./tool-rag.html">Tool RAG</a></li>
-                    <li><a href="./interfaces.html">Interfaces</a></li>
-                </ul>
-            </aside>
+Agentic Forge is built from modular components that work together to create efficient, interoperable AI agents with smart tool management.
 
-            <article class="docs-content">
-                <h1>Architecture <span>Overview</span></h1>
-                <p class="lead">
-                    Agentic Forge is built from modular components that work together to create efficient,
-                    interoperable AI agents with smart tool management.
-                </p>
-
-                <div class="architecture-diagram">
+<div class="architecture-diagram">
 <pre>
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                              AGENTIC FORGE                                       │
@@ -89,65 +47,35 @@
 │                                                                                  │
 └─────────────────────────────────────────────────────────────────────────────────┘
 </pre>
-                </div>
+</div>
 
-                <h2>Components</h2>
+## Components
 
-                <div class="component-grid">
-                    <a href="./orchestrator.html" class="component-card">
-                        <h3>Orchestrator</h3>
-                        <p>Standalone component managing the LLM conversation loop with model routing, tool routing, and hooks for observability.</p>
-                        <div class="arrow">Learn more →</div>
-                    </a>
+| Component | Description |
+|-----------|-------------|
+| [Orchestrator](/docs/orchestrator) | Standalone component managing the LLM conversation loop with model routing, tool routing, and hooks for observability. |
+| [Armory](/docs/armory) | Protocol gateway that aggregates multiple tool sources and exposes them through a unified MCP interface. |
+| [Tool RAG](/docs/tool-rag) | Dynamic tool selection using semantic search to reduce context usage and improve accuracy. |
+| [Interfaces](/docs/interfaces) | CLI, Web UI, WebSocket API, and Python SDK for interacting with the system. |
+| [Anvil](/docs/anvil) | CLI and web-based inspector for testing and debugging MCP servers during development. |
 
-                    <a href="./armory.html" class="component-card">
-                        <h3>Armory</h3>
-                        <p>Protocol gateway that aggregates multiple tool sources and exposes them through a unified MCP interface.</p>
-                        <div class="arrow">Learn more →</div>
-                    </a>
+## Key Innovations
 
-                    <a href="./tool-rag.html" class="component-card">
-                        <h3>Tool RAG</h3>
-                        <p>Dynamic tool selection using semantic search to reduce context usage and improve accuracy.</p>
-                        <div class="arrow">Learn more →</div>
-                    </a>
+### Protocol Interoperability
 
-                    <a href="./interfaces.html" class="component-card">
-                        <h3>Interfaces</h3>
-                        <p>CLI, Web UI, WebSocket API, and Python SDK for interacting with the system.</p>
-                        <div class="arrow">Learn more →</div>
-                    </a>
+Different LLMs output tool calls in different formats (OpenAI, Anthropic, Gemini, etc.). Agentic Forge normalizes these through Pydantic AI and translates to whatever backend format is needed.
 
-                    <a href="./anvil.html" class="component-card">
-                        <h3>Anvil</h3>
-                        <p>CLI and web-based inspector for testing and debugging MCP servers during development.</p>
-                        <div class="arrow">Learn more →</div>
-                    </a>
-                </div>
+### Token Optimization with TOON
 
-                <h2>Key Innovations</h2>
+Tool results are converted from JSON to TOON (Token-Oriented Object Notation) at the gateway level, achieving 30-40% token savings without requiring changes to existing MCP servers or tools.
 
-                <h3>Protocol Interoperability</h3>
-                <p>
-                    Different LLMs output tool calls in different formats (OpenAI, Anthropic, Gemini, etc.).
-                    Agentic Forge normalizes these through Pydantic AI and translates to whatever backend format is needed.
-                </p>
+### Smart Tool Selection
 
-                <h3>Token Optimization with TOON</h3>
-                <p>
-                    Tool results are converted from JSON to TOON (Token-Oriented Object Notation) at the gateway level,
-                    achieving 30-40% token savings without requiring changes to existing MCP servers or tools.
-                </p>
+Instead of loading all tools into context, Tool RAG uses semantic search to dynamically select only relevant tools, reducing context usage by ~50% and improving accuracy by 3x.
 
-                <h3>Smart Tool Selection</h3>
-                <p>
-                    Instead of loading all tools into context, Tool RAG uses semantic search to dynamically select
-                    only relevant tools, reducing context usage by ~50% and improving accuracy by 3x.
-                </p>
+## Data Flow
 
-                <h2>Data Flow</h2>
-
-                <div class="architecture-diagram">
+<div class="architecture-diagram">
 <pre>
 USER QUERY
     │
@@ -177,54 +105,14 @@ USER QUERY
                            ▼
               FINAL RESPONSE TO USER
 </pre>
-                </div>
+</div>
 
-                <h2>Technology Stack</h2>
+## Technology Stack
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Layer</th>
-                            <th>Technology</th>
-                            <th>Purpose</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Framework</td>
-                            <td>Pydantic AI</td>
-                            <td>Model abstraction, type-safe tools</td>
-                        </tr>
-                        <tr>
-                            <td>Protocol</td>
-                            <td>MCP (Streamable HTTP)</td>
-                            <td>Tool communication standard</td>
-                        </tr>
-                        <tr>
-                            <td>Format</td>
-                            <td>TOON</td>
-                            <td>Token-efficient data encoding</td>
-                        </tr>
-                        <tr>
-                            <td>Search</td>
-                            <td>Vector embeddings</td>
-                            <td>Semantic tool matching</td>
-                        </tr>
-                        <tr>
-                            <td>API</td>
-                            <td>WebSocket + REST</td>
-                            <td>Real-time streaming + management</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </article>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>Agentic Forge &copy; 2025 &middot; <a href="https://github.com/agentic-forge">GitHub</a></p>
-        </div>
-    </footer>
-</body>
-</html>
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| Framework | Pydantic AI | Model abstraction, type-safe tools |
+| Protocol | MCP (Streamable HTTP) | Tool communication standard |
+| Format | TOON | Token-efficient data encoding |
+| Search | Vector embeddings | Semantic tool matching |
+| API | WebSocket + REST | Real-time streaming + management |

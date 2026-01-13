@@ -1,0 +1,124 @@
+/**
+ * Agentic Forge Custom Theme
+ * Purple (#7c3aed) / Orange (#f97316) branding
+ */
+
+:root {
+  /* Brand colors - darker purple for light mode contrast */
+  --vp-c-brand-1: #5b21b6;
+  --vp-c-brand-2: #6d28d9;
+  --vp-c-brand-3: #7c3aed;
+  --vp-c-brand-soft: rgba(91, 33, 182, 0.14);
+
+  /* Accent color (orange) */
+  --af-accent: #f97316;
+  --af-accent-light: #fb923c;
+}
+
+/* Dark mode overrides */
+.dark {
+  --vp-c-bg: #0f0f14;
+  --vp-c-bg-alt: #1a1a24;
+  --vp-c-bg-elv: #1a1a24;
+  --vp-c-bg-soft: #1a1a24;
+
+  --vp-c-border: #2d2d3a;
+  --vp-c-divider: #2d2d3a;
+  --vp-c-gutter: #1a1a24;
+
+  --vp-c-text-1: #e4e4eb;
+  --vp-c-text-2: #9ca3af;
+  --vp-c-text-3: #6b7280;
+
+  --vp-code-block-bg: #12121a;
+  --vp-code-line-highlight-color: rgba(124, 58, 237, 0.08);
+
+  --vp-c-brand-1: #8b5cf6;
+  --vp-c-brand-2: #a78bfa;
+  --vp-c-brand-3: #c4b5fd;
+}
+
+/* Hero section gradient text */
+.VPHero .name .clip {
+  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--af-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Home hero tagline styling */
+.VPHero .tagline {
+  color: var(--vp-c-text-2);
+}
+
+/* Feature cards hover effect */
+.VPFeature:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+/* Custom badge for experimental status */
+.VPBadge.warning {
+  background-color: rgba(249, 115, 22, 0.1);
+  border-color: var(--af-accent);
+  color: var(--af-accent);
+}
+
+/* Code block styling */
+.vp-code-group .tabs label {
+  color: var(--vp-c-text-2);
+}
+
+.vp-code-group .tabs label.active {
+  color: var(--vp-c-brand-1);
+}
+
+/* Sidebar active link */
+.VPSidebarItem.is-active > .item > .link > .text {
+  color: var(--vp-c-brand-1);
+}
+
+/* Custom container for architecture diagrams */
+.architecture-diagram {
+  background: var(--vp-code-block-bg);
+  border: 1px solid var(--vp-c-border);
+  border-radius: 8px;
+  padding: 24px;
+  margin: 24px 0;
+  overflow-x: auto;
+}
+
+.architecture-diagram pre {
+  margin: 0;
+  background: transparent;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Table styling improvements */
+table {
+  width: 100%;
+  margin: 16px 0;
+}
+
+th {
+  background: var(--vp-c-bg-soft);
+}
+
+/* Button styling to match brand - override all states */
+.VPButton.brand,
+.VPButton.brand:link,
+.VPButton.brand:visited,
+.VPButton.brand:active {
+  background-color: var(--vp-c-brand-1) !important;
+  border-color: var(--vp-c-brand-1) !important;
+  color: #fff !important;
+}
+
+.VPButton.brand:hover {
+  background-color: var(--vp-c-brand-2) !important;
+  border-color: var(--vp-c-brand-2) !important;
+}
+
+/* Nav logo text styling */
+.VPNavBarTitle .title {
+  font-weight: 700;
+}

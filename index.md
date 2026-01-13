@@ -1,0 +1,69 @@
+---
+layout: home
+
+hero:
+  name: "Agentic Forge"
+  text: "Build Efficient AI Agents"
+  tagline: A research platform exploring smarter tool management, token-efficient formats, and seamless protocol interoperability for AI agents.
+  image:
+    src: /logo.png
+    alt: Agentic Forge
+  actions:
+    - theme: brand
+      text: View Documentation
+      link: /docs/
+    - theme: alt
+      text: GitHub
+      link: https://github.com/agentic-forge
+
+features:
+  - icon: 🎯
+    title: Orchestrator
+    details: Standalone LLM loop management with model routing, tool routing, and observability hooks.
+    link: /docs/orchestrator
+  - icon: 🛡️
+    title: Armory
+    details: Like OpenRouter for tools — one unified MCP interface to many backends (MCP servers, REST APIs, local functions).
+    link: /docs/armory
+  - icon: 🧠
+    title: Tool RAG
+    details: Dynamic tool selection via semantic search. 3x accuracy improvement, 50% context reduction.
+    link: /docs/tool-rag
+  - icon: 💻
+    title: Interfaces
+    details: CLI, WebSocket API, and Python SDK for flexible integration into any system.
+    link: /docs/interfaces
+  - icon: 🔨
+    title: Anvil
+    details: CLI and web-based inspector for testing and debugging MCP servers during development.
+    link: /docs/anvil
+---
+
+<style>
+.VPHero .VPImage {
+  max-width: 180px;
+  margin-bottom: 24px;
+}
+</style>
+
+## Key Innovations
+
+<div class="features-grid">
+
+### 💾 TOON Format
+Token-Oriented Object Notation for 30-40% token reduction in tool results. Better accuracy than JSON.
+
+### 🌐 Protocol Interop
+Seamless translation between OpenAI, Anthropic, Gemini formats and MCP protocol.
+
+### 🔧 Smart Routing
+Rule-based routing to select models and tools based on task characteristics.
+
+### 🔍 Observability
+Hooks and middleware for logging, metrics, cost tracking, and custom logic injection.
+
+</div>
+
+::: warning Experimental Project
+We're in the research and design phase. Architecture is documented, implementation coming soon!
+:::
