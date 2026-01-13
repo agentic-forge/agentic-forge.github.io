@@ -28,6 +28,8 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Get Started', link: '/docs/getting-started' },
+      { text: 'Gallery', link: '/docs/gallery' },
       { text: 'Docs', link: '/docs/' },
       { text: 'GitHub', link: 'https://github.com/agentic-forge' }
     ],
@@ -35,9 +37,16 @@ export default defineConfig({
     sidebar: {
       '/docs/': [
         {
-          text: 'Documentation',
+          text: 'Getting Started',
           items: [
-            { text: 'Architecture', link: '/docs/' },
+            { text: 'Quick Start', link: '/docs/getting-started' },
+            { text: 'Gallery', link: '/docs/gallery' },
+          ]
+        },
+        {
+          text: 'Architecture',
+          items: [
+            { text: 'Overview', link: '/docs/' },
             { text: 'Orchestrator', link: '/docs/orchestrator' },
             { text: 'Armory', link: '/docs/armory' },
             { text: 'Anvil', link: '/docs/anvil' },

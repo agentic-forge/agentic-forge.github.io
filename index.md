@@ -10,8 +10,11 @@ hero:
     alt: Agentic Forge
   actions:
     - theme: brand
-      text: View Documentation
-      link: /docs/
+      text: Get Started
+      link: /docs/getting-started
+    - theme: alt
+      text: View Gallery
+      link: /docs/gallery
     - theme: alt
       text: GitHub
       link: https://github.com/agentic-forge
@@ -64,6 +67,6 @@ Hooks and middleware for logging, metrics, cost tracking, and custom logic injec
 
 </div>
 
-::: warning Experimental Project
-We're in the research and design phase. Architecture is documented, implementation coming soon!
+::: tip Early Access
+Agentic Forge is in active development. Core components are working - [get started](/docs/getting-started) and try it yourself!
 :::

@@ -122,3 +122,29 @@ th {
 .VPNavBarTitle .title {
   font-weight: 700;
 }
+
+/* Screenshot/Gallery image styling */
+.vp-doc img {
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin: 16px 0;
+  max-width: 100%;
+  height: auto;
+}
+
+.dark .vp-doc img {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Gallery page specific styles */
+.vp-doc h3 + p + p > img,
+.vp-doc h3 + p > img {
+  margin-top: 8px;
+}
+
+/* Horizontal rule styling for section breaks */
+.vp-doc hr {
+  margin: 48px 0;
+  border-color: var(--vp-c-border);
+}
