@@ -49,6 +49,19 @@ features:
 }
 </style>
 
+## Who Is This For?
+
+<div class="audience-grid">
+
+| Audience | Use Case |
+|----------|----------|
+| **AI Engineers** | Building production agents with multi-model routing and tool orchestration |
+| **MCP Developers** | Need a gateway to aggregate multiple MCP servers into one interface |
+| **Researchers** | Exploring Tool RAG, TOON format, and agent efficiency optimizations |
+| **DevTools Builders** | Looking for reference implementations of agent architectures |
+
+</div>
+
 ## Key Innovations
 
 <div class="features-grid">

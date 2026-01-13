@@ -148,3 +148,51 @@ th {
   margin: 48px 0;
   border-color: var(--vp-c-border);
 }
+
+/* ===========================================
+   Blog Readability Improvements
+   - Softer contrast for reduced eye strain
+   - Improved line-height for long-form reading
+   - Slightly larger text for comfortable reading
+   =========================================== */
+
+/* Softer text color in dark mode for reduced strain */
+.dark .vp-doc {
+  --vp-c-text-1: #c9c9d4;  /* Softer, easier on the eyes */
+}
+
+/* Blog content typography improvements */
+.vp-doc p,
+.vp-doc li {
+  line-height: 1.7;        /* Comfortable without feeling loose */
+  font-size: 16.5px;       /* Slightly larger for readability */
+}
+
+/* Slightly heavier weight for better rendering on dark backgrounds */
+.dark .vp-doc p,
+.dark .vp-doc li {
+  font-weight: 420;        /* Between normal (400) and medium (500) */
+}
+
+/* Headings: visible hierarchy but not harsh */
+.dark .vp-doc h1,
+.dark .vp-doc h2,
+.dark .vp-doc h3 {
+  color: #d8d8e0;          /* Softer, still distinct from body text */
+}
+
+/* Code blocks: softer text as well */
+.dark .vp-doc code {
+  color: #d1d5db;
+}
+
+/* Blockquotes and emphasis */
+.dark .vp-doc blockquote {
+  color: #b4b4bc;
+  border-left-color: var(--vp-c-brand-1);
+}
+
+/* Links: ensure they stand out but aren't jarring */
+.dark .vp-doc a {
+  font-weight: 450;
+}

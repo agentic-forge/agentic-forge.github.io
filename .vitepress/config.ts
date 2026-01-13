@@ -29,7 +29,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Get Started', link: '/docs/getting-started' },
-      { text: 'Gallery', link: '/docs/gallery' },
+      { text: 'Blog', link: '/blog/' },
       { text: 'Docs', link: '/docs/' },
       { text: 'GitHub', link: 'https://github.com/agentic-forge' }
     ],
@@ -52,6 +52,18 @@ export default defineConfig({
             { text: 'Anvil', link: '/docs/anvil' },
             { text: 'Tool RAG', link: '/docs/tool-rag' },
             { text: 'Interfaces', link: '/docs/interfaces' },
+          ]
+        }
+      ],
+      '/blog/': [
+        {
+          text: 'Blog',
+          items: [
+            { text: 'All Posts', link: '/blog/' },
+            { text: 'Multi-Provider Orchestrator', link: '/blog/multi-provider-orchestrator' },
+            { text: 'Armory MCP Gateway', link: '/blog/armory-mcp-gateway' },
+            { text: 'Streaming Tool Calls', link: '/blog/streaming-tool-calls' },
+            { text: 'Getting Started Tutorial', link: '/blog/getting-started-tutorial' },
           ]
         }
       ]
