@@ -141,17 +141,6 @@ This enables building custom UIs or scripts that manage your model configuration
 
 If you were using the previous OpenRouter-only model cache, the system automatically migrates your data on first launch. Models are imported with a `legacy` source tag so you can distinguish them from freshly-fetched models.
 
-## What's Next
-
-The model management system is live now. Future improvements we're considering:
-
-- **Model search** — Filter by name, provider, or capability
-- **Usage stats** — Track which models you use most
-- **Cost estimates** — Show pricing in the dropdown
-- **Model groups** — Create custom collections (e.g., "Fast models", "Coding models")
-
-Try it out: click the gear icon next to the model selector, or check the [getting started guide](/docs/getting-started).
-
 ---
 
 *This is part of a series on building Agentic Forge. See also: [Multi-Provider Orchestrator](/blog/multi-provider-orchestrator), [Streaming Tool Calls](/blog/streaming-tool-calls).*
