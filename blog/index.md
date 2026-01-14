@@ -6,6 +6,13 @@ Technical articles about building efficient AI agents with Agentic Forge.
 
 <div class="blog-list">
 
+### [Model Management: Beyond the Dropdown](/blog/model-management-ui)
+*January 2026*
+
+How we built a model management system with favorites, recent models, and multi-provider support to tame 300+ available LLMs.
+
+---
+
 ### [Getting Started with Agentic Forge](/blog/getting-started-tutorial)
 *January 2026*
 

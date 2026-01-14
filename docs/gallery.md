@@ -24,11 +24,23 @@ Models with reasoning capabilities (like DeepSeek R1) show their thinking proces
 
 ![Extended Thinking](/screens/forge-ui.png)
 
-### Multi-Model Support
+### Model Selection with Favorites
 
-Switch between 100+ models from OpenRouter. See pricing and capabilities at a glance.
+The model dropdown shows your favorited models first, then recent models, making it easy to access the models you use most.
 
-![Model Selection](/screens/forge-ui-model-selection.png)
+![Model Dropdown with Favorites](/screens/forge-ui-model-selection-dropdown.png)
+
+### Model Management
+
+A dedicated modal for managing models across multiple providers. Star your favorites, fetch models from provider APIs, or add models manually.
+
+![Model Management - OpenAI](/screens/forge-ui-model-selection.png)
+
+### 300+ Models via OpenRouter
+
+Connect to OpenRouter for access to 300+ models from dozens of providers. Each model shows capability badges (tools, vision) and source tags.
+
+![Model Management - OpenRouter](/screens/forge-ui-model-selection-config.png)
 
 ### Parallel Tool Calls
 
