@@ -39,7 +39,7 @@
 
   <!-- Protocol labels -->
   <text x="100" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">subprocess</text>
-  <text x="250" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">SSE</text>
+  <text x="250" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">SSE + REST</text>
   <text x="400" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">REST</text>
   <text x="550" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">import</text>
 
@@ -48,18 +48,15 @@
   <text x="325" y="185" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#a7f3d0">ORCHESTRATOR API</text>
 
   <!-- API components -->
-  <rect x="70" y="200" width="120" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
-  <text x="130" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">WebSocket</text>
-  <text x="130" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(bi-directional)</text>
+  <rect x="80" y="200" width="140" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
+  <text x="150" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">SSE</text>
+  <text x="150" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(streaming responses)</text>
 
-  <rect x="220" y="200" width="120" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
-  <text x="280" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">SSE</text>
-  <text x="280" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(streaming)</text>
+  <rect x="250" y="200" width="140" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
+  <text x="320" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">REST</text>
+  <text x="320" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(management, CRUD)</text>
 
-  <rect x="370" y="200" width="120" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
-  <text x="430" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">REST</text>
-  <text x="430" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(management)</text>
-
-  <rect x="520" y="200" width="70" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
-  <text x="555" y="222" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">Python</text>
+  <rect x="420" y="200" width="140" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">Python SDK</text>
+  <text x="490" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(direct import)</text>
 </svg>
