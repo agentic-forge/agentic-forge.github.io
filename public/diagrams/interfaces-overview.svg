@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280">
+  <defs>
+    <marker id="int-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="280" fill="none"/>
+
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#e2e8f0">Interface Overview</text>
+
+  <!-- CLI -->
+  <rect x="40" y="50" width="120" height="60" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="100" y="75" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">CLI</text>
+  <text x="100" y="92" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">(terminal)</text>
+
+  <!-- Web Chat UI -->
+  <rect x="190" y="50" width="120" height="60" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="250" y="75" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">Web Chat UI</text>
+  <text x="250" y="92" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">(Vue.js)</text>
+
+  <!-- Admin UI -->
+  <rect x="340" y="50" width="120" height="60" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="400" y="75" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">Admin UI</text>
+  <text x="400" y="92" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">(Armory mgmt)</text>
+
+  <!-- Python SDK -->
+  <rect x="490" y="50" width="120" height="60" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="550" y="75" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">Python SDK</text>
+  <text x="550" y="92" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">(import)</text>
+
+  <!-- Arrows down -->
+  <line x1="100" y1="110" x2="100" y2="150" stroke="#8b5cf6" stroke-width="2" marker-end="url(#int-arr)"/>
+  <line x1="250" y1="110" x2="250" y2="150" stroke="#8b5cf6" stroke-width="2" marker-end="url(#int-arr)"/>
+  <line x1="400" y1="110" x2="400" y2="150" stroke="#8b5cf6" stroke-width="2" marker-end="url(#int-arr)"/>
+  <line x1="550" y1="110" x2="550" y2="150" stroke="#8b5cf6" stroke-width="2" marker-end="url(#int-arr)"/>
+
+  <!-- Protocol labels -->
+  <text x="100" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">subprocess</text>
+  <text x="250" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">SSE</text>
+  <text x="400" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">REST</text>
+  <text x="550" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">import</text>
+
+  <!-- Orchestrator API -->
+  <rect x="40" y="160" width="570" height="90" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+  <text x="325" y="185" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#a7f3d0">ORCHESTRATOR API</text>
+
+  <!-- API components -->
+  <rect x="70" y="200" width="120" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
+  <text x="130" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">WebSocket</text>
+  <text x="130" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(bi-directional)</text>
+
+  <rect x="220" y="200" width="120" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
+  <text x="280" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">SSE</text>
+  <text x="280" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(streaming)</text>
+
+  <rect x="370" y="200" width="120" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
+  <text x="430" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">REST</text>
+  <text x="430" y="228" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#a7f3d0">(management)</text>
+
+  <rect x="520" y="200" width="70" height="35" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1.5"/>
+  <text x="555" y="222" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">Python</text>
+</svg>

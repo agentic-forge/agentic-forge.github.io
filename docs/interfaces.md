@@ -4,24 +4,8 @@ Multiple ways to interact with Agentic Forge: CLI for terminal users, WebSocket 
 
 ## Interface Overview
 
-<div class="architecture-diagram">
-<pre>
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│     CLI      │  │   Web Chat   │  │  Admin UI    │  │   Python     │
-│  (terminal)  │  │     UI       │  │(Armory mgmt) │  │    SDK       │
-└──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘
-       │                 │                 │                 │
-       │ (subprocess)    │ (WebSocket)     │ (REST)          │ (import)
-       │                 │                 │                 │
-       ▼                 ▼                 ▼                 ▼
-┌────────────────────────────────────────────────────────────────────┐
-│                       ORCHESTRATOR API                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
-│  │  WebSocket   │  │     SSE      │  │   Python     │              │
-│  │  (bi-direct) │  │  (streaming) │  │   Import     │              │
-│  └──────────────┘  └──────────────┘  └──────────────┘              │
-└────────────────────────────────────────────────────────────────────┘
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/interfaces-overview.svg" alt="Interface Overview" style="max-width: 100%; height: auto;" />
 </div>
 
 ## Why WebSocket over REST?

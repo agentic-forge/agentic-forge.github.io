@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 220">
+  <defs>
+    <marker id="prot-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+    <marker id="prot-arr-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="220" fill="none"/>
+
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#e2e8f0">Protocol Translation</text>
+
+  <!-- Column labels -->
+  <text x="100" y="50" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">Model Outputs</text>
+  <text x="310" y="50" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">Pydantic AI</text>
+  <text x="520" y="50" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">Armory Translates</text>
+
+  <!-- GPT-4 box -->
+  <rect x="30" y="70" width="140" height="50" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="100" y="90" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">GPT-4</text>
+  <text x="100" y="108" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">tool_calls[].func..</text>
+
+  <!-- Claude box -->
+  <rect x="30" y="135" width="140" height="50" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="100" y="155" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#93c5fd">Claude</text>
+  <text x="100" y="173" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">tool_use.{name,in..}</text>
+
+  <!-- Arrows to center -->
+  <line x1="170" y1="95" x2="220" y2="120" stroke="#8b5cf6" stroke-width="2" marker-end="url(#prot-arr)"/>
+  <line x1="170" y1="160" x2="220" y2="135" stroke="#8b5cf6" stroke-width="2" marker-end="url(#prot-arr)"/>
+
+  <!-- Internal Schema (center) -->
+  <rect x="230" y="85" width="160" height="80" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="310" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">Internal Schema</text>
+  <text x="310" y="135" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">(unified)</text>
+  <text x="310" y="155" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">normalizes all formats</text>
+
+  <!-- Arrow to backends -->
+  <line x1="390" y1="125" x2="430" y2="125" stroke="#f59e0b" stroke-width="2" marker-end="url(#prot-arr-orange)"/>
+
+  <!-- Backend formats box -->
+  <rect x="440" y="70" width="160" height="115" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="2"/>
+  <text x="520" y="95" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#fcd34d">Backend Formats</text>
+
+  <!-- Backend list -->
+  <text x="465" y="120" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24">→ MCP</text>
+  <text x="465" y="138" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24">→ REST APIs</text>
+  <text x="465" y="156" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24">→ OpenAI FC</text>
+  <text x="465" y="174" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24">→ Local Functions</text>
+</svg>

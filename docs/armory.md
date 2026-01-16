@@ -57,21 +57,8 @@ async with agent.run_mcp_servers():
 
 The Armory translates between different protocol formats automatically:
 
-<div class="architecture-diagram">
-<pre>
-Model outputs (trained format)     Pydantic AI          Armory translates
-───────────────────────────────    normalizes           to backend format
-
-┌─────────────────────┐           ┌──────────────┐     ┌──────────────┐
-│ GPT-4:              │           │              │     │              │
-│ tool_calls[].func.. │──┐        │   Internal   │     │  → MCP       │
-└─────────────────────┘  │        │   Schema     │     │  → REST      │
-                         ├───────>│   (unified)  │────>│  → OpenAI FC │
-┌─────────────────────┐  │        │              │     │  → Local     │
-│ Claude:             │──┤        │              │     │              │
-│ tool_use.{name,in.. │  │        └──────────────┘     └──────────────┘
-└─────────────────────┘  │
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/protocol-translation.svg" alt="Protocol Translation" style="max-width: 100%; height: auto;" />
 </div>
 
 ### Result Transformation (JSON → TOON)

@@ -73,27 +73,8 @@ anvil ui --port 5000
 
 Open [http://localhost:5000](http://localhost:5000) in your browser.
 
-<div class="architecture-diagram">
-<pre>
-+------------------------------------------------------------------+
-|  Anvil Web UI                                        [Connect]   |
-+------------------------------------------------------------------+
-|  Server: http://localhost:8000/mcp              [Connected]      |
-+------------------------------------------------------------------+
-|                                                                  |
-|  Tools (4)                    | Tool: get_current_weather        |
-|  +--------------------------+ | +------------------------------+ |
-|  | get_current_weather      | | | Description:                 | |
-|  | get_forecast             | | | Get current weather for city | |
-|  | get_air_quality          | | |                              | |
-|  | geocode                  | | | Parameters:                  | |
-|  +--------------------------+ | | - city (string, required)    | |
-|                               | | - units (string, optional)   | |
-|  Resources (0)                | |                              | |
-|  Prompts (0)                  | | [Execute Tool]               | |
-|                               | +------------------------------+ |
-+------------------------------------------------------------------+
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/anvil-ui-mockup.svg" alt="Anvil Web UI" style="max-width: 100%; height: auto;" />
 </div>
 
 ## Example: Testing mcp-weather
