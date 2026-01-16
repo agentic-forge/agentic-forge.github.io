@@ -35,21 +35,19 @@ REST's request-response model doesn't fit LLM agents well:
 | Stateful conversations | Resend full context | Session maintained |
 | Cancel/feedback | Can't interrupt | Bi-directional messages |
 
-## Recommended: WebSocket + REST Hybrid
+## Recommended: SSE + REST Hybrid
 
-<div class="architecture-diagram">
-<pre>
-WebSocket /ws/chat                    REST /api/v1/*
-─────────────────                     ─────────────────
-• Conversations (streaming)           • Health check
-• Token streaming                     • List conversations
-• Tool call progress                  • Get conversation history
-• Cancel requests                     • Configuration
-• User feedback mid-stream            • Model/tool management
-
-Best for: Real-time chat              Best for: Management, CRUD
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/sse-event-flow.svg" alt="SSE Event Flow" style="max-width: 100%; height: auto;" />
 </div>
+
+| SSE `/conversations/{id}/stream` | REST `/api/v1/*` |
+|----------------------------------|------------------|
+| Token streaming | Health check |
+| Tool call progress | List conversations |
+| Thinking events | Get conversation history |
+| Completion events | Configuration |
+| Heartbeat pings | Model/tool management |
 
 ## WebSocket Protocol
 

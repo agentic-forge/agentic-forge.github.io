@@ -2,51 +2,8 @@
 
 Agentic Forge is built from modular components that work together to create efficient, interoperable AI agents with smart tool management.
 
-<div class="architecture-diagram">
-<pre>
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                              AGENTIC FORGE                                       │
-│                                                                                  │
-│  ┌────────────────────────────────────────────────────────────────────────────┐ │
-│  │                           ORCHESTRATOR                                      │ │
-│  │  Standalone component managing the LLM conversation loop                    │ │
-│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐      │ │
-│  │  │ Conversation │ │    Model     │ │     Tool     │ │   Execution  │      │ │
-│  │  │   Manager    │ │    Router    │ │    Router    │ │    Engine    │      │ │
-│  │  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘      │ │
-│  └─────────────────────────────────────────┬──────────────────────────────────┘ │
-│                                            │                                     │
-│                          MCP Protocol      │                                     │
-│                                            ▼                                     │
-│  ┌────────────────────────────────────────────────────────────────────────────┐ │
-│  │                              ARMORY                                         │ │
-│  │  Protocol Gateway exposing unified MCP interface                            │ │
-│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐      │ │
-│  │  │     MCP      │ │     Tool     │ │   Protocol   │ │    Result    │      │ │
-│  │  │   Server     │ │   Registry   │ │   Adapters   │ │ Transformer  │      │ │
-│  │  │  Interface   │ │              │ │              │ │  (JSON→TOON) │      │ │
-│  │  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘      │ │
-│  │                          │                                                  │ │
-│  │                          ▼                                                  │ │
-│  │                   ┌──────────────┐                                          │ │
-│  │                   │   TOOL RAG   │                                          │ │
-│  │                   │  (optional)  │                                          │ │
-│  │                   └──────────────┘                                          │ │
-│  └─────────────────────────────────────────┬──────────────────────────────────┘ │
-│                                            │                                     │
-│                    Protocol Translation    │                                     │
-│                                            ▼                                     │
-│  ┌────────────────────────────────────────────────────────────────────────────┐ │
-│  │                           BACKENDS                                          │ │
-│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐      │ │
-│  │  │ MCP Servers  │ │  REST APIs   │ │    Local     │ │  OpenAI FC   │      │ │
-│  │  │ (filesystem, │ │  (weather,   │ │  Functions   │ │   Services   │      │ │
-│  │  │  brave, etc) │ │   etc)       │ │              │ │              │      │ │
-│  │  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘      │ │
-│  └────────────────────────────────────────────────────────────────────────────┘ │
-│                                                                                  │
-└─────────────────────────────────────────────────────────────────────────────────┘
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/forge-architecture.svg" alt="Agentic Forge Architecture" style="max-width: 100%; height: auto;" />
 </div>
 
 ## Components
@@ -75,36 +32,8 @@ Instead of loading all tools into context, Tool RAG uses semantic search to dyna
 
 ## Data Flow
 
-<div class="architecture-diagram">
-<pre>
-USER QUERY
-    │
-    ▼
-┌─────────────────────────────────────────────────────────────┐
-│  ORCHESTRATOR                                                │
-│  ├── Model Router: selects appropriate LLM                   │
-│  ├── Sends to LLM with tool definitions                      │
-│  └── LLM returns: tool_call("search", {...})                 │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│  ARMORY (receives tool call via MCP)                         │
-│  ├── Tool RAG: confirms tool is relevant                     │
-│  ├── Protocol Adapter: routes to backend                     │
-│  └── Backend executes, returns JSON                          │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│  RESULT TRANSFORMER                                          │
-│  ├── Detects tabular data                                    │
-│  └── Converts JSON → TOON (saves ~40% tokens)                │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-              FINAL RESPONSE TO USER
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/armory-tool-call-flow.svg" alt="Tool Call Data Flow" style="max-width: 100%; height: auto;" />
 </div>
 
 ## Technology Stack

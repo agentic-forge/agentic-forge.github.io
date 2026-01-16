@@ -33,42 +33,8 @@ Research shows tool accuracy **decreases** as tool count increases:
 
 ## The Solution
 
-<div class="architecture-diagram">
-<pre>
-┌─────────────┐
-│ User Query  │
-│ "Book a     │
-│  flight to  │
-│  Paris"     │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐      ┌─────────────────────────────────────────┐
-│   Embed     │      │           TOOL REGISTRY                  │
-│   Query     │      │  book_flight    [0.2, 0.8, 0.1, ...]    │
-└──────┬──────┘      │  get_weather    [0.5, 0.3, 0.7, ...]    │
-       │             │  search_hotels  [0.3, 0.7, 0.2, ...]    │
-       ▼             │              ... 1000s more ...          │
-┌─────────────┐      └─────────────────────────────────────────┘
-│  Semantic   │─────────────────────────────────────────────────>
-│   Search    │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  TOP-K RELEVANT TOOLS (k=5)                                  │
-│  1. book_flight (0.95 similarity)                            │
-│  2. search_flights (0.87 similarity)                         │
-│  3. get_airport_info (0.72 similarity)                       │
-└─────────────────────────────────────────────────────────────┘
-       │
-       ▼
-┌─────────────┐
-│    LLM      │  Only sees 5 tools instead of 1000+
-│  (with 5    │  → Better accuracy
-│   tools)    │  → Fewer tokens
-└─────────────┘
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/tool-rag-flow.svg" alt="Tool RAG Flow" style="max-width: 100%; height: auto;" />
 </div>
 
 ## Benefits

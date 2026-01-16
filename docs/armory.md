@@ -22,40 +22,15 @@ Just as a forge creates tools and an armory stores them, the Armory is where you
 
 Armory exposes multiple MCP endpoints, giving clients flexibility:
 
-<div class="architecture-diagram">
-<pre>
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              ARMORY                                          │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│   Endpoints (all valid MCP - path is flexible per spec):                     │
-│   ├── /mcp              → Aggregated (all tools with prefixes)              │
-│   ├── /mcp/weather      → Direct access to weather server                   │
-│   ├── /mcp/search       → Direct access to search server                    │
-│   ├── /mcp/notes        → Direct access to notes server                     │
-│   └── /.well-known/mcp.json → Discovery metadata                            │
-│                                                                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │
-│  │     Tool     │  │   Tool RAG   │  │   Protocol   │  │    Result    │    │
-│  │   Registry   │  │  (optional)  │  │   Adapters   │  │ Transformer  │    │
-│  └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘    │
-│                                                                              │
-└──────────────────────────────────────┬───────────────────────────────────────┘
-                                       │
-        ┌──────────────────────────────┼──────────────────────────────┐
-        │                              │                              │
-        ▼                              ▼                              ▼
-┌───────────────┐              ┌───────────────┐              ┌───────────────┐
-│    CUSTOM     │              │   EXISTING    │              │    REMOTE     │
-│   (FastMCP)   │              │  (npm/local)  │              │   (hosted)    │
-├───────────────┤              ├───────────────┤              ├───────────────┤
-│ weather       │              │ brave-search  │              │ github        │
-│ (Open-Meteo)  │              │ fetch         │              │ (GitHub host) │
-│ uptime        │              │ filesystem    │              │               │
-│ notes         │              │ time          │              │               │
-└───────────────┘              └───────────────┘              └───────────────┘
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/armory-tool-call-flow.svg" alt="Armory Tool Call Flow" style="max-width: 100%; height: auto;" />
 </div>
+
+**Endpoints:**
+- `/mcp` → Aggregated (all tools with prefixes)
+- `/mcp/weather` → Direct access to weather server
+- `/mcp/search` → Direct access to search server
+- `/.well-known/mcp.json` → Discovery metadata
 
 **Why hybrid?** Clients wanting simplicity connect to `/mcp` (one connection, all tools). Clients wanting isolation connect to `/mcp/{server}` (specific server only).
 

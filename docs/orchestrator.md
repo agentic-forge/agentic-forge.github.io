@@ -14,33 +14,8 @@ While Pydantic AI provides built-in orchestration, a standalone orchestrator off
 
 ## Architecture
 
-<div class="architecture-diagram">
-<pre>
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           ORCHESTRATOR                                       │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│  ┌────────────────────────────────────────────────────────────────────────┐ │
-│  │                         PUBLIC API                                      │ │
-│  │  - run(prompt) → Response                                               │ │
-│  │  - run_stream(prompt) → AsyncIterator[Event]                            │ │
-│  │  - step() → manually advance one loop iteration                         │ │
-│  └────────────────────────────────────────────────────────────────────────┘ │
-│                                      │                                       │
-│                                      ▼                                       │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │
-│  │ Conversation │  │    Model     │  │     Tool     │  │  Execution   │    │
-│  │   Manager    │  │    Router    │  │    Router    │  │   Engine     │    │
-│  └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘    │
-│                                      │                                       │
-│                                      ▼                                       │
-│  ┌────────────────────────────────────────────────────────────────────────┐ │
-│  │                         HOOKS / MIDDLEWARE                              │ │
-│  │  on_model_request, on_model_response, on_tool_call, on_complete        │ │
-│  └────────────────────────────────────────────────────────────────────────┘ │
-│                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘
-</pre>
+<div class="diagram-container">
+  <img src="/diagrams/orchestrator-architecture.svg" alt="Orchestrator Architecture" style="max-width: 100%; height: auto;" />
 </div>
 
 ## Sub-components

@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420">
+  <defs>
+    <marker id="rag-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+    <marker id="rag-arr-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+    <marker id="rag-arr-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="420" fill="none"/>
+
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#e2e8f0">Tool RAG: Dynamic Tool Selection</text>
+
+  <!-- User Query -->
+  <rect x="40" y="60" width="140" height="70" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="110" y="85" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#93c5fd">User Query</text>
+  <text x="110" y="105" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">"Book a flight</text>
+  <text x="110" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">to Paris"</text>
+
+  <!-- Arrow to Embed -->
+  <line x1="180" y1="95" x2="230" y2="95" stroke="#8b5cf6" stroke-width="2" marker-end="url(#rag-arr)"/>
+
+  <!-- Embed Query -->
+  <rect x="240" y="60" width="120" height="70" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="300" y="85" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">Embed Query</text>
+  <text x="300" y="105" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">text-embedding</text>
+  <text x="300" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">-3-small</text>
+
+  <!-- Arrow to Search -->
+  <line x1="360" y1="95" x2="410" y2="95" stroke="#8b5cf6" stroke-width="2" marker-end="url(#rag-arr)"/>
+
+  <!-- Semantic Search -->
+  <rect x="420" y="60" width="130" height="70" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="485" y="85" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">Semantic Search</text>
+  <text x="485" y="105" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">cosine similarity</text>
+  <text x="485" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">top_k=5</text>
+
+  <!-- Tool Registry (large box on right) -->
+  <rect x="560" y="150" width="130" height="200" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="2"/>
+  <text x="625" y="175" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#fcd34d">Tool Registry</text>
+  <text x="625" y="195" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">1000+ tools</text>
+
+  <!-- Tool entries in registry -->
+  <rect x="575" y="210" width="100" height="25" rx="4" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+  <text x="625" y="227" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#fcd34d">book_flight</text>
+
+  <rect x="575" y="242" width="100" height="25" rx="4" fill="#78350f" stroke="#92400e" stroke-width="1"/>
+  <text x="625" y="259" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#fbbf24">get_weather</text>
+
+  <rect x="575" y="274" width="100" height="25" rx="4" fill="#78350f" stroke="#92400e" stroke-width="1"/>
+  <text x="625" y="291" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#fbbf24">search_hotels</text>
+
+  <rect x="575" y="306" width="100" height="25" rx="4" fill="#78350f" stroke="#92400e" stroke-width="1"/>
+  <text x="625" y="323" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#fbbf24">send_email</text>
+
+  <text x="625" y="345" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">...</text>
+
+  <!-- Arrow from Search to Registry -->
+  <path d="M 550 95 L 580 95 L 580 150" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#rag-arr-orange)"/>
+
+  <!-- Arrow from Search down to Results -->
+  <line x1="485" y1="130" x2="485" y2="180" stroke="#10b981" stroke-width="2" marker-end="url(#rag-arr-green)"/>
+
+  <!-- Top-K Results -->
+  <rect x="280" y="190" width="250" height="130" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+  <text x="405" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">Top-K Relevant Tools (k=5)</text>
+
+  <!-- Result entries -->
+  <text x="300" y="240" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">1. book_flight</text>
+  <text x="440" y="240" font-family="system-ui, sans-serif" font-size="9" fill="#34d399">0.95</text>
+
+  <text x="300" y="260" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">2. search_flights</text>
+  <text x="440" y="260" font-family="system-ui, sans-serif" font-size="9" fill="#34d399">0.87</text>
+
+  <text x="300" y="280" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">3. get_airport_info</text>
+  <text x="440" y="280" font-family="system-ui, sans-serif" font-size="9" fill="#34d399">0.72</text>
+
+  <text x="300" y="300" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">4. book_hotel</text>
+  <text x="440" y="300" font-family="system-ui, sans-serif" font-size="9" fill="#34d399">0.65</text>
+
+  <!-- Arrow from Results to LLM -->
+  <line x1="280" y1="255" x2="200" y2="255" stroke="#10b981" stroke-width="2" marker-end="url(#rag-arr-green)"/>
+
+  <!-- LLM -->
+  <rect x="40" y="200" width="150" height="110" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="115" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">LLM</text>
+  <text x="115" y="252" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">Sees only 5 tools</text>
+  <text x="115" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">instead of 1000+</text>
+  <text x="115" y="295" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">→ Better accuracy</text>
+  <text x="115" y="307" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">→ Fewer tokens</text>
+
+  <!-- Benefits box -->
+  <rect x="40" y="340" width="250" height="60" rx="8" fill="#1e1b4b" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="165" y="362" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#c4b5fd">Benefits</text>
+  <text x="165" y="380" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">3x accuracy improvement • ~50% fewer tokens</text>
+  <text x="165" y="393" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">Scales to 1000s of tools</text>
+
+  <!-- Legend -->
+  <g transform="translate(480, 355)">
+    <text x="0" y="0" font-family="system-ui, sans-serif" font-size="10" font-weight="500" fill="#94a3b8">Legend</text>
+    <line x1="0" y1="15" x2="30" y2="15" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="40" y="19" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Query flow</text>
+    <line x1="0" y1="32" x2="30" y2="32" stroke="#10b981" stroke-width="2"/>
+    <text x="40" y="36" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Results</text>
+    <line x1="100" y1="15" x2="130" y2="15" stroke="#f59e0b" stroke-width="2"/>
+    <text x="140" y="19" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Registry lookup</text>
+  </g>
+</svg>

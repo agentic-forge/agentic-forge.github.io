@@ -14,6 +14,10 @@ export default defineConfig({
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'Agentic Forge' }],
     ['meta', { property: 'og:description', content: 'Build more efficient AI agents with smart tool management' }],
+    ['meta', { property: 'og:image', content: 'https://agentic-forge.github.io/forge-architecture-og.png' }],
+    ['meta', { property: 'og:url', content: 'https://agentic-forge.github.io' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: 'https://agentic-forge.github.io/forge-architecture-og.png' }],
     // Umami Analytics
     ['script', {
       defer: '',
