@@ -1,6 +1,6 @@
 # Interfaces
 
-Multiple ways to interact with Agentic Forge: CLI for terminal users, WebSocket API for real-time applications, and Python SDK for direct integration.
+Multiple ways to interact with Agentic Forge: CLI for terminal users, SSE API for real-time streaming, and Python SDK for direct integration.
 
 ## Interface Overview
 
@@ -8,16 +8,16 @@ Multiple ways to interact with Agentic Forge: CLI for terminal users, WebSocket 
   <img src="/diagrams/interfaces-overview.svg" alt="Interface Overview" style="max-width: 100%; height: auto;" />
 </div>
 
-## Why WebSocket over REST?
+## Why SSE over REST?
 
 REST's request-response model doesn't fit LLM agents well:
 
-| Challenge | REST Problem | WebSocket Solution |
-|-----------|--------------|-------------------|
+| Challenge | REST Problem | SSE Solution |
+|-----------|--------------|--------------|
 | Streaming tokens | Wait for complete response | Stream as generated |
 | Long-running tasks | Timeouts, no progress | Persistent connection |
-| Stateful conversations | Resend full context | Session maintained |
-| Cancel/feedback | Can't interrupt | Bi-directional messages |
+| Tool call progress | No visibility | Real-time events |
+| Heartbeats | Connection drops | Built-in ping events |
 
 ## Recommended: SSE + REST Hybrid
 
@@ -33,68 +33,52 @@ REST's request-response model doesn't fit LLM agents well:
 | Completion events | Configuration |
 | Heartbeat pings | Model/tool management |
 
-## WebSocket Protocol
+## SSE Protocol
 
-### Client → Server
+### Client → Server (REST)
 
-```json
-// Send a chat message
-{
-  "type": "chat",
-  "payload": {
-    "conversation_id": "optional-id",
-    "message": "Search for AI news",
-    "system_prompt": "You are a research assistant",
-    "model": "smart"
-  }
-}
+```bash
+# Create a conversation
+POST /conversations
+Content-Type: application/json
 
-// Cancel a request
-{
-  "type": "cancel",
-  "payload": {
-    "conversation_id": "conv-123"
-  }
-}
+{"system_prompt": "You are a research assistant"}
+
+# Send a message
+POST /conversations/{id}/messages
+Content-Type: application/json
+
+{"content": "Search for AI news"}
+
+# Cancel generation
+POST /conversations/{id}/cancel
 ```
 
-### Server → Client
+### Server → Client (SSE Stream)
 
-```json
-// Token streaming
-{
-  "type": "token",
-  "conversation_id": "conv-123",
-  "payload": {
-    "token": "The",
-    "cumulative": "The"
-  }
-}
+Connect to `GET /conversations/{id}/stream` to receive events:
 
-// Tool call event
-{
-  "type": "tool_call",
-  "conversation_id": "conv-123",
-  "payload": {
-    "tool_name": "brave_search",
-    "arguments": {"query": "AI news 2025"},
-    "status": "executing"
-  }
-}
+```
+event: token
+data: {"token": "The", "cumulative": "The"}
 
-// Completion
-{
-  "type": "complete",
-  "conversation_id": "conv-123",
-  "payload": {
-    "response": "Here's what I found...",
-    "usage": {
-      "prompt_tokens": 150,
-      "completion_tokens": 200,
-      "total_cost": 0.003
-    }
-  }
-}
+event: thinking
+data: {"content": "Let me search for recent AI news..."}
+
+event: tool_call
+data: {"id": "tc_1", "name": "web_search", "arguments": {"query": "AI news"}, "status": "pending"}
+
+event: tool_call
+data: {"id": "tc_1", "name": "web_search", "status": "executing"}
+
+event: tool_result
+data: {"id": "tc_1", "result": {...}}
+
+event: complete
+data: {"usage": {"prompt_tokens": 150, "completion_tokens": 200}}
+
+event: ping
+data: {}
 ```
 
 ## Python SDK
@@ -150,7 +134,7 @@ agentic-forge run "Complex task" \
   --output json
 
 # Connect to remote orchestrator
-agentic-forge chat --server ws://localhost:8000/ws/chat
+agentic-forge chat --server http://localhost:8001
 ```
 
 ### Interactive Mode
@@ -187,34 +171,42 @@ REST API for managing the Armory:
 
 ## Non-Python Integration
 
-For projects not written in Python, use the WebSocket API:
+For projects not written in Python, use the REST + SSE API:
 
 ```javascript
 // JavaScript/TypeScript
-const ws = new WebSocket('ws://localhost:8000/ws/chat');
+const baseUrl = 'http://localhost:8001';
 
-ws.onopen = () => {
-  ws.send(JSON.stringify({
-    type: 'chat',
-    payload: { message: 'Search for AI news' }
-  }));
-};
+// Create conversation and send message
+const conv = await fetch(`${baseUrl}/conversations`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ system_prompt: 'You are a helpful assistant' })
+}).then(r => r.json());
 
-ws.onmessage = (event) => {
-  const data = JSON.parse(event.data);
+await fetch(`${baseUrl}/conversations/${conv.id}/messages`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ content: 'Search for AI news' })
+});
 
-  switch (data.type) {
-    case 'token':
-      process.stdout.write(data.payload.token);
-      break;
-    case 'tool_call':
-      console.log(`\n[${data.payload.tool_name}]`);
-      break;
-    case 'complete':
-      console.log('\nDone!');
-      break;
-  }
-};
+// Listen to SSE stream
+const eventSource = new EventSource(`${baseUrl}/conversations/${conv.id}/stream`);
+
+eventSource.addEventListener('token', (e) => {
+  const data = JSON.parse(e.data);
+  process.stdout.write(data.token);
+});
+
+eventSource.addEventListener('tool_call', (e) => {
+  const data = JSON.parse(e.data);
+  console.log(`\n[${data.name}: ${data.status}]`);
+});
+
+eventSource.addEventListener('complete', () => {
+  console.log('\nDone!');
+  eventSource.close();
+});
 ```
 
 ## Summary
@@ -222,7 +214,7 @@ ws.onmessage = (event) => {
 | Interface | Use Case | Protocol |
 |-----------|----------|----------|
 | Python SDK | Python applications | Direct import |
-| WebSocket API | Web/mobile, non-Python | WebSocket |
-| SSE API | Simple streaming | HTTP + SSE |
+| SSE API | Web/mobile, real-time streaming | HTTP + SSE |
+| REST API | Management, CRUD operations | HTTP |
 | CLI | Terminal users | Subprocess |
 | Admin API | Armory management | REST |
