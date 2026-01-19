@@ -6,6 +6,13 @@ Technical articles about building efficient AI agents with Agentic Forge.
 
 <div class="blog-list">
 
+### [TOON Format: Cutting Tokens Without Cutting Information](/blog/toon-format-support)
+*January 2026*
+
+How we implemented TOON format support across Agentic Forge to reduce tool result tokens by 30-60%, with a custom header workaround for MCP SDK limitations.
+
+---
+
 ### [Model Management: Beyond the Dropdown](/blog/model-management-ui)
 *January 2026*
 
