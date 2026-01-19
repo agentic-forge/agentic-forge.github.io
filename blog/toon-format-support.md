@@ -51,37 +51,11 @@ Adding TOON support seemed simple: set an `Accept: text/toon` header when callin
 
 **The MCP SDK overwrites the Accept header.**
 
-The `mcp` Python library's `_prepare_headers()` method sets:
-```python
-"Accept": "application/json, text/event-stream"
-```
-
-This happens after user headers are merged, meaning our `Accept: text/toon` gets overwritten before the request is sent. No amount of header configuration could fix this.
+The `mcp` Python library's `_prepare_headers()` method forces `Accept: application/json, text/event-stream`, and this happens after user headers are merged. No amount of header configuration could fix this.
 
 ## The Solution: Custom Header
 
-Instead of fighting the SDK, we introduced a custom header that the SDK doesn't touch:
-
-```
-X-Prefer-Format: toon
-```
-
-Armory checks this header first, falling back to the standard `Accept` header for non-MCP clients:
-
-```python
-def get_preferred_format(request: Request) -> OutputFormat:
-    # Check custom header first (for MCP clients)
-    prefer_format = request.headers.get("x-prefer-format", "").lower()
-    if prefer_format == "toon":
-        return OutputFormat.TOON
-
-    # Fallback to Accept header (for direct HTTP clients)
-    accept = request.headers.get("accept", "")
-    if "text/toon" in accept:
-        return OutputFormat.TOON
-
-    return OutputFormat.JSON
-```
+Instead of fighting the SDK, we introduced a custom header that the SDK doesn't touch: `X-Prefer-Format: toon`. Armory checks this header first, falling back to the standard `Accept` header for non-MCP clients.
 
 ## The Full Flow
 
@@ -100,46 +74,13 @@ The key insight: **conversion happens in Armory, not in backends**. MCP servers 
 
 ## Smart Conversion
 
-TOON isn't always smaller than JSON. For deeply nested objects or non-uniform arrays, JSON might actually be more compact. Armory's conversion logic handles this:
-
-```python
-def to_json_or_toon(data: Any, format: OutputFormat) -> str | Any:
-    if format == OutputFormat.TOON:
-        toon_str = to_toon(data)
-        json_str = json.dumps(data, default=str)
-
-        # Only use TOON if it's actually smaller
-        if len(toon_str) < len(json_str):
-            return toon_str
-
-    return data  # Return as object for JSON serialization
-```
-
-This ensures TOON is only used when it provides actual benefit.
+TOON isn't always smaller than JSON. For deeply nested objects or non-uniform arrays, JSON might actually be more compact. Armory compares both formats and only uses TOON when it provides actual benefit.
 
 ## UI Display
 
 Tool results now display differently based on format. JSON results get pretty-printed with indentation. TOON results display as plain text with proper line breaks.
 
 ![TOON in forge-ui](/screens/toon-format-ui.png)
-
-The `ToolCallCard` component detects the format:
-
-```typescript
-const isStringResult = computed(() => {
-  return typeof props.toolCall.result === 'string'
-})
-
-const formattedResult = computed(() => {
-  if (isStringResult.value) {
-    // TOON: display as-is with line breaks
-    return props.toolCall.result as string
-  } else {
-    // JSON: pretty-print
-    return JSON.stringify(props.toolCall.result, null, 2)
-  }
-})
-```
 
 ## Results
 
