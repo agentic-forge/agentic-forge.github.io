@@ -6,6 +6,13 @@ Technical articles about building efficient AI agents with Agentic Forge.
 
 <div class="blog-list">
 
+### [Tool RAG: Dynamic Tool Discovery for AI Agents](/blog/tool-rag-dynamic-discovery)
+*January 2026*
+
+How we implemented Tool RAG in Agentic Forge—agents discover tools on-demand through semantic search instead of loading all tools upfront, reducing context usage and improving tool selection accuracy.
+
+---
+
 ### [TOON Format: Cutting Tokens Without Cutting Information](/blog/toon-format-support)
 *January 2026*
 
