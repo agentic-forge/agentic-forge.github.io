@@ -32,118 +32,33 @@ While Pydantic AI provides built-in orchestration, a standalone orchestrator off
 
 Select different models based on task characteristics:
 
-```python
-model_router = ModelRouter()
-model_router.add_model("fast", ModelConfig("openai", "gpt-4o-mini"))
-model_router.add_model("smart", ModelConfig("anthropic", "claude-3-5-sonnet"))
-model_router.add_model("code", ModelConfig("anthropic", "claude-3-5-sonnet"))
-
-# Route based on complexity
-model_router.add_rule(RoutingRule(
-    condition=lambda ctx: ctx.estimated_complexity < 3,
-    model_name="fast"
-))
-
-# Route based on intent
-model_router.add_rule(RoutingRule(
-    condition=lambda ctx: "code" in ctx.detected_intent,
-    model_name="code"
-))
-```
+| Routing Type | Example |
+|--------------|---------|
+| By complexity | Simple queries → fast model, complex → smart model |
+| By intent | Code tasks → code-optimized model |
+| By cost | Budget constraints → cheaper models |
+| By capability | Vision tasks → multimodal models |
 
 ## Tool Router
 
 Route tool calls to appropriate backends based on patterns:
 
-```python
-tool_router = ToolRouter()
-tool_router.add_mcp_server("armory", "http://localhost:8000/mcp")
-
-# Route by prefix
-tool_router.add_route(ToolRoute(
-    pattern="fs_*",
-    destination="filesystem_server"
-))
-
-# Route by category
-tool_router.add_route(ToolRoute(
-    pattern="db_*",
-    destination="database_server"
-))
-
-# Default to Armory
-tool_router.add_route(ToolRoute(
-    pattern="*",
-    destination="armory"
-))
-```
+| Pattern | Destination | Use Case |
+|---------|-------------|----------|
+| `fs_*` | Filesystem server | File operations |
+| `db_*` | Database server | Data queries |
+| `*` | Armory (default) | Everything else |
 
 ## Hooks for Observability
 
 Register handlers for various events in the orchestration loop:
 
-```python
-orchestrator = Orchestrator(model_router, tool_router)
-
-@orchestrator.on("model_request")
-def log_model_request(data):
-    print(f"Calling model: {data['model'].model}")
-
-@orchestrator.on("tool_calls")
-async def track_tools(data):
-    for call in data["calls"]:
-        await metrics.increment(f"tool.{call.name}.calls")
-
-@orchestrator.on("complete")
-def track_cost(data):
-    cost = calculate_cost(data["usage"])
-    budget_tracker.add(cost)
-```
-
-## Usage Examples
-
-### Basic Usage
-
-```python
-from agentic_forge import Orchestrator, ModelRouter, ToolRouter
-
-orchestrator = Orchestrator(
-    model_router=ModelRouter(...),
-    tool_router=ToolRouter(...)
-)
-
-result = await orchestrator.run(
-    prompt="Search for AI news and summarize",
-    system_prompt="You are a research assistant."
-)
-
-print(result.content)
-```
-
-### Streaming
-
-```python
-async for event in orchestrator.run_stream("Search..."):
-    if event.type == "token":
-        print(event.token, end="", flush=True)
-    elif event.type == "tool_call":
-        print(f"\n[Calling {event.tool_name}...]")
-```
-
-### Embedding in Applications
-
-```python
-from fastapi import FastAPI
-from agentic_forge import Orchestrator
-
-app = FastAPI()
-orchestrator = Orchestrator(...)
-
-@app.post("/chat")
-async def chat(request: ChatRequest):
-    result = await orchestrator.run(request.message)
-    return {"response": result.content}
-```
+| Event | Use Case |
+|-------|----------|
+| `model_request` | Log model calls, track usage |
+| `tool_calls` | Monitor tool usage, metrics |
+| `complete` | Cost tracking, budget management |
+| `error` | Error logging, alerting |
 
 ## Comparison with Pydantic AI Agent
 

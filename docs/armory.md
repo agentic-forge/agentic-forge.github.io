@@ -40,19 +40,6 @@ Armory exposes multiple MCP endpoints, giving clients flexibility:
 
 Orchestrators connect to the Armory as a single MCP server. They don't need to know about the various backends - they just see a collection of tools.
 
-```python
-# Pydantic AI connects to Armory as MCP server
-from pydantic_ai import Agent
-from pydantic_ai.mcp import MCPServerSSE
-
-armory = MCPServerSSE('http://localhost:8000/mcp')
-agent = Agent('openai:gpt-4o', toolsets=[armory])
-
-async with agent.run_mcp_servers():
-    # All tools from all backends are available
-    result = await agent.run("Search and summarize")
-```
-
 ### Protocol Translation
 
 The Armory translates between different protocol formats automatically:
@@ -63,18 +50,7 @@ The Armory translates between different protocol formats automatically:
 
 ### Result Transformation (JSON → TOON)
 
-Tool results are converted to TOON format for token efficiency:
-
-```python
-class ResultTransformer:
-    def transform(self, result: Any) -> str:
-        # TOON for tabular data (30-40% savings)
-        if self._is_tabular(result):
-            return toon.encode(result)
-
-        # JSON for complex nested structures
-        return json.dumps(result)
-```
+Tool results are automatically converted to TOON format for token efficiency. Send `Accept: text/toon` header to enable.
 
 **Before (JSON):**
 ```json
@@ -177,24 +153,6 @@ sources:
     name: "notes"
     command: "python"
     args: ["-m", "forge_mcp_servers.notes"]
-```
-
-## Usage
-
-```python
-from agentic_forge import Armory
-
-# Load from config
-armory = Armory.from_config("armory.yaml")
-
-# Or configure programmatically
-armory = Armory()
-await armory.register_mcp_server("http://localhost:3001/mcp", prefix="fs_")
-await armory.register_rest_api("https://api.weather.com", tools=[...])
-await armory.register_local_function(my_function)
-
-# Start the server
-await armory.start()  # Exposes MCP at http://localhost:8000/mcp
 ```
 
 ## Benefits

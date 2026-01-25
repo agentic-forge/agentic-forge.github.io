@@ -28,14 +28,10 @@ features:
     title: Armory
     details: Like OpenRouter for tools — one unified MCP interface to many backends (MCP servers, REST APIs, local functions).
     link: /docs/armory
-  - icon: 🧠
-    title: Tool RAG
-    details: Dynamic tool selection via semantic search. 60% context reduction measured, with accuracy improvements.
-    link: /docs/tool-rag
-  - icon: 💻
-    title: Interfaces
-    details: CLI, WebSocket API, and Python SDK for flexible integration into any system.
-    link: /docs/interfaces
+  - icon: 💬
+    title: forge-ui
+    details: Vue.js chat interface with SSE streaming, tool call visualization, and conversation management.
+    link: /docs/forge-ui
   - icon: 🔨
     title: Anvil
     details: CLI and web-based inspector for testing and debugging MCP servers during development.
@@ -62,9 +58,21 @@ features:
 
 </div>
 
+## Example MCP Servers
+
+Agentic Forge includes ready-to-use MCP servers to get you started:
+
+| Server | Description |
+|--------|-------------|
+| [mcp-weather](https://github.com/agentic-forge/mcp-weather) | Weather data via Open-Meteo API |
+| [mcp-web-search](https://github.com/agentic-forge/mcp-web-search) | Web search via Brave Search API |
+
 ## Key Innovations
 
 <div class="features-grid">
+
+### 🧠 Tool RAG
+Dynamic tool selection via semantic search. 60% context reduction measured, with accuracy improvements.
 
 ### 💾 TOON Format
 Token-Oriented Object Notation for 15-40% token reduction in tool results, scaling with data size.

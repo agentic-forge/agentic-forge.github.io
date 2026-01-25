@@ -81,41 +81,6 @@ event: ping
 data: {}
 ```
 
-## Python SDK
-
-For Python projects, direct import is the cleanest approach:
-
-```python
-from agentic_forge import Orchestrator, ModelRouter, ToolRouter
-
-# Setup
-orchestrator = Orchestrator(
-    model_router=ModelRouter(...),
-    tool_router=ToolRouter(...)
-)
-
-# Synchronous (simple scripts)
-result = orchestrator.run_sync("Search for AI news")
-print(result.content)
-
-# Async (applications)
-async def main():
-    result = await orchestrator.run("Search for AI news")
-    print(result.content)
-
-# Streaming
-async for event in orchestrator.run_stream("Search..."):
-    if event.type == "token":
-        print(event.token, end="", flush=True)
-    elif event.type == "tool_call":
-        print(f"\n[Calling {event.tool_name}...]")
-
-# With hooks for observability
-@orchestrator.on("tool_calls")
-def log_tools(data):
-    print(f"Tools: {[c.name for c in data['calls']]}")
-```
-
 ## CLI Interface
 
 ### Commands
@@ -168,46 +133,6 @@ REST API for managing the Armory:
 | DELETE | /api/v1/sources/{id} | Remove MCP server |
 | GET | /api/v1/tools | List all available tools |
 | GET | /api/v1/health | Health check |
-
-## Non-Python Integration
-
-For projects not written in Python, use the REST + SSE API:
-
-```javascript
-// JavaScript/TypeScript
-const baseUrl = 'http://localhost:8001';
-
-// Create conversation and send message
-const conv = await fetch(`${baseUrl}/conversations`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ system_prompt: 'You are a helpful assistant' })
-}).then(r => r.json());
-
-await fetch(`${baseUrl}/conversations/${conv.id}/messages`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ content: 'Search for AI news' })
-});
-
-// Listen to SSE stream
-const eventSource = new EventSource(`${baseUrl}/conversations/${conv.id}/stream`);
-
-eventSource.addEventListener('token', (e) => {
-  const data = JSON.parse(e.data);
-  process.stdout.write(data.token);
-});
-
-eventSource.addEventListener('tool_call', (e) => {
-  const data = JSON.parse(e.data);
-  console.log(`\n[${data.name}: ${data.status}]`);
-});
-
-eventSource.addEventListener('complete', () => {
-  console.log('\nDone!');
-  eventSource.close();
-});
-```
 
 ## Summary
 

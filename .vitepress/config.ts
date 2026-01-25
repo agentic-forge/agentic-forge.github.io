@@ -48,14 +48,21 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Architecture',
+          text: 'Components',
           items: [
             { text: 'Overview', link: '/docs/' },
             { text: 'Orchestrator', link: '/docs/orchestrator' },
             { text: 'Armory', link: '/docs/armory' },
+            { text: 'forge-ui', link: '/docs/forge-ui' },
             { text: 'Anvil', link: '/docs/anvil' },
-            { text: 'Tool RAG', link: '/docs/tool-rag' },
             { text: 'Interfaces', link: '/docs/interfaces' },
+          ]
+        },
+        {
+          text: 'Techniques',
+          items: [
+            { text: 'Tool RAG', link: '/docs/tool-rag' },
+            { text: 'TOON Format', link: '/docs/toon' },
           ]
         }
       ],
@@ -64,6 +71,9 @@ export default defineConfig({
           text: 'Blog',
           items: [
             { text: 'All Posts', link: '/blog/' },
+            { text: 'Cutting Context by 60%', link: '/blog/token-optimization-toon-rag' },
+            { text: 'Tool RAG: Dynamic Discovery', link: '/blog/tool-rag-dynamic-discovery' },
+            { text: 'TOON Format Support', link: '/blog/toon-format-support' },
             { text: 'Multi-Provider Orchestrator', link: '/blog/multi-provider-orchestrator' },
             { text: 'Armory MCP Gateway', link: '/blog/armory-mcp-gateway' },
             { text: 'Streaming Tool Calls', link: '/blog/streaming-tool-calls' },
