@@ -39,7 +39,7 @@
   <rect x="420" y="60" width="130" height="70" rx="8" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
   <text x="485" y="85" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">Semantic Search</text>
   <text x="485" y="105" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">cosine similarity</text>
-  <text x="485" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">top_k=5</text>
+  <text x="485" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#a5b4fc">threshold=0.5</text>
 
   <!-- Tool Registry (large box on right) -->
   <rect x="560" y="150" width="130" height="200" rx="8" fill="#451a03" stroke="#f59e0b" stroke-width="2"/>
@@ -67,9 +67,9 @@
   <!-- Arrow from Search down to Results -->
   <line x1="485" y1="130" x2="485" y2="180" stroke="#10b981" stroke-width="2" marker-end="url(#rag-arr-green)"/>
 
-  <!-- Top-K Results -->
+  <!-- Matching Tools -->
   <rect x="280" y="190" width="250" height="130" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
-  <text x="405" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">Top-K Relevant Tools (k=5)</text>
+  <text x="405" y="215" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#a7f3d0">Matching Tools (above threshold)</text>
 
   <!-- Result entries -->
   <text x="300" y="240" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">1. get_current_weather</text>

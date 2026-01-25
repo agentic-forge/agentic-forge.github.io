@@ -68,17 +68,17 @@ async def register_tool(self, tool: ToolDefinition):
 
 ### 2. Query Processing
 
-When a query comes in, embed it and search:
+When a query comes in, embed it and search for matches above the similarity threshold:
 
 ```python
-async def search(self, query: str, top_k: int = 10):
+async def search(self, query: str, threshold: float = 0.5):
     # Embed the query
     query_embedding = await self.embed(query)
 
-    # Search vector index
+    # Search vector index for all matches above threshold
     results = await self.index.search(
         query_embedding,
-        top_k=top_k
+        threshold=threshold
     )
 
     # Return tool definitions
@@ -93,10 +93,10 @@ Tool RAG integrates at the gateway level:
 class Armory:
     async def handle_tools_list(self, request):
         if self.tool_rag_enabled and request.context:
-            # Return only relevant tools
+            # Return only relevant tools (above threshold)
             tools = await self.tool_rag.search(
                 request.context,
-                top_k=10
+                threshold=0.5
             )
         else:
             # Return all tools
@@ -129,8 +129,7 @@ class Armory:
 tool_rag:
   enabled: true
   embedding_model: "text-embedding-3-small"
-  default_top_k: 10
-  similarity_threshold: 0.5  # Filter low-relevance matches
+  similarity_threshold: 0.5  # Return all matches above this threshold
   cache_embeddings: true     # Cache query embeddings
 ```
 
@@ -138,23 +137,25 @@ tool_rag:
 
 ```python
 class ToolRAGMetrics:
-    def recall_at_k(self, query, expected_tools, k):
+    def recall(self, query, expected_tools, threshold=0.5):
         """What % of needed tools were retrieved?"""
-        retrieved = self.search(query, top_k=k)
+        retrieved = self.search(query, threshold=threshold)
         return len(set(retrieved) & set(expected_tools)) / len(expected_tools)
 
-    def precision_at_k(self, query, expected_tools, k):
+    def precision(self, query, expected_tools, threshold=0.5):
         """What % of retrieved tools were actually needed?"""
-        retrieved = self.search(query, top_k=k)
+        retrieved = self.search(query, threshold=threshold)
+        if not retrieved:
+            return 0.0
         return len(set(retrieved) & set(expected_tools)) / len(retrieved)
 
-    def mrr(self, query, expected_tool):
-        """Mean Reciprocal Rank - how early does the right tool appear?"""
-        retrieved = self.search(query, top_k=20)
-        for i, tool in enumerate(retrieved):
-            if tool == expected_tool:
-                return 1.0 / (i + 1)
-        return 0.0
+    def f1(self, query, expected_tools, threshold=0.5):
+        """Harmonic mean of precision and recall"""
+        p = self.precision(query, expected_tools, threshold)
+        r = self.recall(query, expected_tools, threshold)
+        if p + r == 0:
+            return 0.0
+        return 2 * (p * r) / (p + r)
 ```
 
 ## References

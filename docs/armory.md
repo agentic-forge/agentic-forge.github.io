@@ -142,7 +142,7 @@ server:
 tool_rag:
   enabled: true
   embedding_model: "text-embedding-3-small"
-  default_top_k: 10
+  similarity_threshold: 0.5
 
 result_transformer:
   toon_enabled: true
