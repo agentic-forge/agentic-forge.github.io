@@ -30,7 +30,7 @@ features:
     link: /docs/armory
   - icon: 🧠
     title: Tool RAG
-    details: Dynamic tool selection via semantic search. 3x accuracy improvement, 50% context reduction.
+    details: Dynamic tool selection via semantic search. 60% context reduction measured, with accuracy improvements.
     link: /docs/tool-rag
   - icon: 💻
     title: Interfaces
@@ -67,7 +67,7 @@ features:
 <div class="features-grid">
 
 ### 💾 TOON Format
-Token-Oriented Object Notation for 30-40% token reduction in tool results. Better accuracy than JSON.
+Token-Oriented Object Notation for 15-40% token reduction in tool results, scaling with data size.
 
 ### 🌐 Protocol Interop
 Seamless translation between OpenAI, Anthropic, Gemini formats and MCP protocol.

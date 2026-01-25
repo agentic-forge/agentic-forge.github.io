@@ -24,11 +24,11 @@ Different LLMs output tool calls in different formats (OpenAI, Anthropic, Gemini
 
 ### Token Optimization with TOON
 
-Tool results are converted from JSON to TOON (Token-Oriented Object Notation) at the gateway level, achieving 30-40% token savings without requiring changes to existing MCP servers or tools.
+Tool results are converted from JSON to TOON (Token-Oriented Object Notation) at the gateway level, achieving 15-40% token savings (scaling with data size) without requiring changes to existing MCP servers or tools.
 
 ### Smart Tool Selection
 
-Instead of loading all tools into context, Tool RAG uses semantic search to dynamically select only relevant tools, reducing context usage by ~50% and improving accuracy by 3x.
+Instead of loading all tools into context, Tool RAG uses semantic search to dynamically select only relevant tools. Our benchmarks show 60% context reduction when combined with TOON format.
 
 ## Data Flow
 

@@ -6,6 +6,13 @@ Technical articles about building efficient AI agents with Agentic Forge.
 
 <div class="blog-list">
 
+### [Cutting Context by 60%: TOON Format + Tool RAG](/blog/token-optimization-toon-rag)
+*January 2026*
+
+We measured the combined effect of TOON format and Tool RAG—including the overhead from the extra round-trip. Together, they reduce context size by 60%, from 12,142 to 4,799 characters.
+
+---
+
 ### [Tool RAG: Dynamic Tool Discovery for AI Agents](/blog/tool-rag-dynamic-discovery)
 *January 2026*
 

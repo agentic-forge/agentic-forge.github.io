@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400">
+  <defs>
+    <linearGradient id="barGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b91c1c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="barGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="barGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="400" fill="none"/>
+
+  <!-- Title -->
+  <text x="350" y="30" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#e2e8f0">Context Size Comparison: TOON + Tool RAG</text>
+  <text x="350" y="52" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8">Same query, same model, different optimizations</text>
+
+  <!-- Y-axis -->
+  <line x1="120" y1="80" x2="120" y2="320" stroke="#475569" stroke-width="1"/>
+  <text x="40" y="200" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" transform="rotate(-90, 40, 200)">Size (characters)</text>
+
+  <!-- Y-axis labels -->
+  <text x="110" y="85" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">12,000</text>
+  <line x1="115" y1="80" x2="120" y2="80" stroke="#475569" stroke-width="1"/>
+
+  <text x="110" y="145" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">9,000</text>
+  <line x1="115" y1="140" x2="120" y2="140" stroke="#475569" stroke-width="1"/>
+
+  <text x="110" y="205" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">6,000</text>
+  <line x1="115" y1="200" x2="120" y2="200" stroke="#475569" stroke-width="1"/>
+
+  <text x="110" y="265" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">3,000</text>
+  <line x1="115" y1="260" x2="120" y2="260" stroke="#475569" stroke-width="1"/>
+
+  <text x="110" y="325" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">0</text>
+  <line x1="115" y1="320" x2="120" y2="320" stroke="#475569" stroke-width="1"/>
+
+  <!-- X-axis -->
+  <line x1="120" y1="320" x2="620" y2="320" stroke="#475569" stroke-width="1"/>
+
+  <!-- Grid lines -->
+  <line x1="120" y1="140" x2="620" y2="140" stroke="#334155" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <line x1="120" y1="200" x2="620" y2="200" stroke="#334155" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <line x1="120" y1="260" x2="620" y2="260" stroke="#334155" stroke-width="0.5" stroke-dasharray="4,4"/>
+
+  <!-- Bar 1: Baseline (All tools + JSON) = 12,142 chars -->
+  <!-- Height: (12142/12000) * 240 = 243, but cap at 240 -->
+  <rect x="160" y="77" width="100" height="243" rx="4" fill="url(#barGradient1)"/>
+  <text x="210" y="70" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#fca5a5">12,142</text>
+
+  <!-- Stacked sections for Bar 1 -->
+  <!-- Tool definitions: 11,704 chars = 231 height -->
+  <rect x="160" y="77" width="100" height="234" rx="4" fill="#ef4444"/>
+  <!-- Tool result: 438 chars = 9 height -->
+  <rect x="160" y="311" width="100" height="9" rx="0" fill="#fca5a5"/>
+
+  <!-- Bar 2: TOON Only (All tools + TOON) = 12,074 chars -->
+  <!-- Similar to baseline, just slightly smaller tool result -->
+  <rect x="300" y="79" width="100" height="241" rx="4" fill="url(#barGradient2)"/>
+  <text x="350" y="72" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#c4b5fd">12,074</text>
+
+  <!-- Stacked sections for Bar 2 -->
+  <rect x="300" y="79" width="100" height="234" rx="4" fill="#8b5cf6"/>
+  <rect x="300" y="313" width="100" height="7" rx="0" fill="#c4b5fd"/>
+
+  <!-- Bar 3: TOON + RAG = 4,799 chars (including overhead) -->
+  <!-- Height: (4799/12000) * 240 = 96 -->
+  <rect x="440" y="224" width="100" height="96" rx="4" fill="url(#barGradient3)"/>
+  <text x="490" y="217" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#6ee7b7">4,799</text>
+
+  <!-- Stacked sections for Bar 3 -->
+  <!-- RAG tools: 4,104 chars = 82 height -->
+  <rect x="440" y="224" width="100" height="82" rx="4" fill="#10b981"/>
+  <!-- Overhead + TOON result: 695 chars = 14 height -->
+  <rect x="440" y="306" width="100" height="14" rx="0" fill="#6ee7b7"/>
+
+  <!-- X-axis labels -->
+  <text x="210" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#e2e8f0">Baseline</text>
+  <text x="210" y="354" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">(All tools + JSON)</text>
+
+  <text x="350" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#e2e8f0">TOON Only</text>
+  <text x="350" y="354" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">(All tools + TOON)</text>
+
+  <text x="490" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#e2e8f0">TOON + RAG</text>
+  <text x="490" y="354" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">(5 tools + TOON)</text>
+
+  <!-- Savings annotation -->
+  <path d="M 560 160 L 580 160 L 580 280 L 560 280" stroke="#10b981" stroke-width="2" fill="none"/>
+  <text x="590" y="210" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#10b981">-60%</text>
+  <text x="590" y="226" font-family="system-ui, sans-serif" font-size="10" fill="#6ee7b7">savings</text>
+
+  <!-- Legend -->
+  <g transform="translate(140, 375)">
+    <rect x="0" y="0" width="12" height="12" rx="2" fill="#64748b"/>
+    <text x="18" y="10" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">Tool definitions</text>
+
+    <rect x="130" y="0" width="12" height="12" rx="2" fill="#94a3b8"/>
+    <text x="148" y="10" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">Tool result</text>
+
+    <text x="280" y="10" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">|</text>
+
+    <text x="300" y="10" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">19 tools available, weather query test</text>
+  </g>
+</svg>

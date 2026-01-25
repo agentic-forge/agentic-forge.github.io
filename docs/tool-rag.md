@@ -39,10 +39,10 @@ Research shows tool accuracy **decreases** as tool count increases:
 
 ## Benefits
 
-Research from Red Hat and AWS shows:
+Research from Red Hat and AWS shows accuracy improvements, and our own benchmarks demonstrate:
 
-- **3x improvement** in tool invocation accuracy
-- **~50% reduction** in prompt token usage
+- **60% context reduction** when combined with TOON format (accounting for RAG round-trip overhead)
+- **65% reduction** in tool definition context alone
 - **Scales to thousands** of tools without degradation
 
 ## How It Works
@@ -160,6 +160,8 @@ class ToolRAGMetrics:
 
 ## References
 
+- [Our Benchmark: Cutting Context by 60%](/blog/token-optimization-toon-rag) — Detailed methodology and results
+- [Tool RAG: Dynamic Tool Discovery](/blog/tool-rag-dynamic-discovery) — Implementation in Agentic Forge
 - [Tool RAG: The Next Breakthrough (Red Hat)](https://next.redhat.com/2025/11/26/tool-rag-the-next-breakthrough-in-scalable-ai-agents/)
 - [Dynamic ReAct Paper](https://arxiv.org/html/2509.20386)
 - [AWS Strands SDK - Dynamic Tool Loading](https://builder.aws.com/content/2zeKrP0DJJLqC0Q9jp842IPxLMm/)
