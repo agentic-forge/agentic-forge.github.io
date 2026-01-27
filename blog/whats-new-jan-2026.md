@@ -66,8 +66,10 @@ Agentic Forge now supports a "Bring Your Own Key" model. Instead of using shared
 
 1. Open Model Management (gear icon in model selector)
 2. Enter your API key for the provider you want to use
-3. Select a model from that provider
-4. Start chatting
+3. Click the check button to save your key
+4. Click "Fetch" to load available models from your provider
+5. Select a model from that provider
+6. Start chatting
 
 Your key is sent with each request via the `X-LLM-Key` header—it's used for that request only and never persisted server-side.
 

@@ -44,8 +44,8 @@ What you get:
 Quick start:
 1. Get an OpenRouter key (one key, 300+ models)
 2. Open the demo
-3. Paste your key
-4. Ask about the weather or search the web
+3. Paste your key, save it, then click Fetch
+4. Select a model and start chatting
 
 Everything we've been building—orchestrator, MCP gateway, tool optimizations—running together in one stack.
 

@@ -8,9 +8,10 @@ Try Agentic Forge at [agentic-forge.compulife.com.pk](https://agentic-forge.comp
 
 1. **Get an API key** — [OpenRouter](https://openrouter.ai/keys) is the easiest option (one key, 300+ models)
 2. **Open the demo** — [agentic-forge.compulife.com.pk](https://agentic-forge.compulife.com.pk)
-3. **Add your key** — Click the gear icon next to the model selector, enter your OpenRouter key
-4. **Select a model** — We recommend starting with `google/gemini-2.0-flash` or `anthropic/claude-sonnet-4`
-5. **Start chatting** — Try asking about the weather or searching the web
+3. **Add your key** — Click the gear icon next to the model selector, enter your OpenRouter key, then click the check button to save
+4. **Fetch models** — Click the "Fetch" button to load available models from your provider
+5. **Select a model** — We recommend starting with `google/gemini-2.0-flash` or `anthropic/claude-sonnet-4`
+6. **Start chatting** — Try asking about the weather or searching the web
 
 That's it. Your API key is stored in your browser only—we never see or store it.
 
