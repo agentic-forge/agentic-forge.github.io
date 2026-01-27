@@ -13,10 +13,10 @@ Try Agentic Forge at agentic-forge.compulife.com.pk—a working AI agent with to
 
 ---
 
-### [What's New in Agentic Forge](/blog/whats-new-jan-2026)
+### [BYOK and Custom MCP Servers in Agentic Forge](/blog/whats-new-jan-2026)
 *January 2026*
 
-Three updates: TOON optimization now works with custom MCP servers, you can add your own tools without server configuration, and BYOK lets you use your own API keys.
+Use your own API keys (BYOK) and connect custom MCP servers directly from the UI. Plus, TOON optimization now works with all tools automatically.
 
 ---
 

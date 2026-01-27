@@ -41,20 +41,7 @@ Custom servers work for the current session only. See [What's New](/blog/whats-n
 
 The demo runs the full Agentic Forge stack:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Your Browser                                                │
-│  └── forge-ui (Vue.js chat interface)                       │
-└────────────────────────┬────────────────────────────────────┘
-                         │ SSE streaming
-                         ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Agentic Forge Server                                        │
-│  ├── forge-orchestrator (LLM agent loop, BYOK, TOON)        │
-│  ├── forge-armory (MCP gateway, Tool RAG)                   │
-│  └── MCP servers (weather, search, huggingface)             │
-└─────────────────────────────────────────────────────────────┘
-```
+![Demo Stack Architecture](/diagrams/demo-stack-architecture.svg)
 
 All the optimizations we've written about are active:
 

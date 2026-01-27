@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 200">
+  <defs>
+    <marker id="arr-purple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="750" height="200" fill="none"/>
+
+  <!-- Title -->
+  <text x="375" y="20" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0">TOON Conversion in Orchestrator</text>
+
+  <!-- forge-ui -->
+  <rect x="30" y="60" width="100" height="60" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2"/>
+  <text x="80" y="85" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#93c5fd">forge-ui</text>
+  <text x="80" y="102" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">Chat UI</text>
+
+  <!-- Arrow 1 -->
+  <line x1="130" y1="90" x2="170" y2="90" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+  <!-- forge-orchestrator -->
+  <rect x="180" y="50" width="140" height="80" rx="6" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2.5"/>
+  <text x="250" y="72" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">orchestrator</text>
+  <rect x="195" y="80" width="110" height="18" rx="3" fill="#312e81"/>
+  <text x="250" y="93" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#22d3ee">TOON conversion</text>
+  <text x="250" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">converts ALL responses</text>
+
+  <!-- Arrow 2 -->
+  <line x1="320" y1="90" x2="360" y2="90" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+  <!-- forge-armory -->
+  <rect x="370" y="60" width="110" height="60" rx="6" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="425" y="85" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#c4b5fd">armory</text>
+  <text x="425" y="102" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">MCP Gateway</text>
+
+  <!-- Arrow 3 -->
+  <line x1="480" y1="90" x2="520" y2="90" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+  <!-- Registered MCP Servers -->
+  <rect x="530" y="60" width="100" height="60" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="580" y="85" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#a7f3d0">Registered</text>
+  <text x="580" y="100" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#6ee7b7">MCP Servers</text>
+
+  <!-- Vertical line down from orchestrator -->
+  <line x1="250" y1="130" x2="250" y2="155" stroke="#8b5cf6" stroke-width="2"/>
+
+  <!-- Arrow to Custom MCP -->
+  <line x1="250" y1="155" x2="530" y2="155" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+  <text x="390" y="148" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Also converts responses from:</text>
+
+  <!-- Custom MCP Servers -->
+  <rect x="530" y="135" width="100" height="50" rx="6" fill="#422006" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="580" y="157" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#fcd34d">Custom</text>
+  <text x="580" y="172" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24">MCP Servers</text>
+
+  <!-- Legend -->
+  <rect x="640" y="60" width="8" height="8" rx="2" fill="#10b981"/>
+  <text x="655" y="68" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Registered</text>
+  <rect x="640" y="78" width="8" height="8" rx="2" fill="#f59e0b"/>
+  <text x="655" y="86" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Custom</text>
+</svg>

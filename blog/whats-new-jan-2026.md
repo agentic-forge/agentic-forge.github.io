@@ -1,4 +1,4 @@
-# What's New in Agentic Forge
+# BYOK and Custom MCP Servers in Agentic Forge
 
 *January 2026*
 
@@ -18,19 +18,7 @@ Now TOON conversion happens in the orchestrator. This means:
 
 The orchestrator requests TOON format from Armory (which passes it through to registered servers), and also converts responses from custom servers that return JSON.
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   forge-ui  │────▶│ orchestrator│────▶│   armory    │
-│             │     │ (TOON here) │     │             │
-└─────────────┘     └──────┬──────┘     └─────────────┘
-                           │
-                           │ Also converts responses from:
-                           ▼
-                    ┌─────────────┐
-                    │ Custom MCP  │
-                    │   Servers   │
-                    └─────────────┘
-```
+![TOON Conversion in Orchestrator](/diagrams/toon-orchestrator-flow.svg)
 
 ## Custom MCP Server Support
 

@@ -1,6 +1,6 @@
 # LinkedIn Posts - January 2026
 
-## Post 1: What's New in Agentic Forge
+## Post 1: BYOK and Custom MCP Servers in Agentic Forge
 
 **Publish first** - pairs with: https://agentic-forge.github.io/blog/whats-new-jan-2026
 
