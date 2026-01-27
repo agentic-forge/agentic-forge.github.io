@@ -36,7 +36,7 @@ Have an MCP server? Connect it directly:
 3. Enter the URL (and API key if required)
 4. Your tools appear alongside the built-in ones
 
-Custom servers work for the current session only. See [What's New](/blog/whats-new-jan-2026) for details.
+Custom servers work for the current session only. See [BYOK and Custom MCP Servers](/blog/byok-and-custom-mcp-servers) for details.
 
 ## What You're Running
 
