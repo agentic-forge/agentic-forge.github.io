@@ -80,15 +80,6 @@ docker compose up
 
 See the [Getting Started Tutorial](/blog/getting-started-tutorial) for detailed instructions.
 
-## What's Next
-
-We're working on:
-
-- **More MCP servers** — GitHub, calendar, file system tools
-- **Protocol adapters** — OpenAI function calling, REST APIs
-
-Follow the [GitHub org](https://github.com/agentic-forge) for updates.
-
 ---
 
 *Try the demo: [agentic-forge.compulife.com.pk](https://agentic-forge.compulife.com.pk)*
