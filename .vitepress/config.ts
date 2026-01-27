@@ -71,6 +71,8 @@ export default defineConfig({
           text: 'Blog',
           items: [
             { text: 'All Posts', link: '/blog/' },
+            { text: 'Demo is Live', link: '/blog/demo-launch' },
+            { text: "What's New (Jan 2026)", link: '/blog/whats-new-jan-2026' },
             { text: 'Cutting Context by 60%', link: '/blog/token-optimization-toon-rag' },
             { text: 'Tool RAG: Dynamic Discovery', link: '/blog/tool-rag-dynamic-discovery' },
             { text: 'TOON Format Support', link: '/blog/toon-format-support' },

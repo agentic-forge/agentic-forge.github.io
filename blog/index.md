@@ -6,6 +6,20 @@ Technical articles about building efficient AI agents with Agentic Forge.
 
 <div class="blog-list">
 
+### [Agentic Forge Demo is Live](/blog/demo-launch)
+*January 2026*
+
+Try Agentic Forge at agentic-forge.compulife.com.pk—a working AI agent with tool access. Bring your own API key, chat with built-in tools, or connect your own MCP servers.
+
+---
+
+### [What's New in Agentic Forge](/blog/whats-new-jan-2026)
+*January 2026*
+
+Three updates: TOON optimization now works with custom MCP servers, you can add your own tools without server configuration, and BYOK lets you use your own API keys.
+
+---
+
 ### [Cutting Context by 60%: TOON Format + Tool RAG](/blog/token-optimization-toon-rag)
 *January 2026*
 
