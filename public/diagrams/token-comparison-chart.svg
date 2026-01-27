@@ -91,9 +91,9 @@
   <text x="490" y="354" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">(5 tools + TOON)</text>
 
   <!-- Savings annotation -->
-  <path d="M 560 160 L 580 160 L 580 280 L 560 280" stroke="#10b981" stroke-width="2" fill="none"/>
-  <text x="590" y="210" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#10b981">-60%</text>
-  <text x="590" y="226" font-family="system-ui, sans-serif" font-size="10" fill="#6ee7b7">savings</text>
+  <path d="M 560 80 L 580 80 L 580 224 L 560 224" stroke="#10b981" stroke-width="2" fill="none"/>
+  <text x="590" y="146" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#10b981">-60%</text>
+  <text x="590" y="162" font-family="system-ui, sans-serif" font-size="10" fill="#6ee7b7">savings</text>
 
   <!-- Legend -->
   <g transform="translate(140, 375)">
