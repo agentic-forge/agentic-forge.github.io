@@ -10,22 +10,22 @@ Try Agentic Forge at [agentic-forge.compulife.com.pk](https://agentic-forge.comp
 2. **Open the demo** — [agentic-forge.compulife.com.pk](https://agentic-forge.compulife.com.pk)
 3. **Add your key** — Click the gear icon next to the model selector, enter your OpenRouter key, then click the check button to save
 4. **Fetch models** — Click the "Fetch" button to load available models from your provider
-5. **Select a model** — We recommend starting with `google/gemini-2.0-flash` or `anthropic/claude-sonnet-4`
+5. **Select a model** — Good options include `google/gemini-3-flash-preview`, `moonshotai/kimi-k2-0905`, or `deepseek/deepseek-v3.2`
 6. **Start chatting** — Try asking about the weather or searching the web
 
 That's it. Your API key is stored in your browser only—we never see or store it.
 
 ## Built-in Tools
 
-The demo comes with three MCP servers pre-configured:
+The demo comes with three MCP servers pre-configured—two built by us, one third-party:
 
-| Server | Tools | Example Queries |
-|--------|-------|-----------------|
-| **Weather** | Current conditions, forecasts, historical data | "What's the weather in Tokyo?" |
-| **Web Search** | Brave Search API | "Search for recent news about AI agents" |
-| **HuggingFace** | Model info, datasets, spaces | "Find popular text-to-image models" |
+| Server | Source | Tools | Example Queries |
+|--------|--------|-------|-----------------|
+| **Weather** | [Agentic Forge](https://github.com/agentic-forge/mcp-weather) | Current conditions, forecasts, historical data | "What's the weather in Tokyo?" |
+| **Web Search** | [Agentic Forge](https://github.com/agentic-forge/mcp-web-search) | Brave Search API | "Search for recent news about AI agents" |
+| **HuggingFace** | Third-party | Model info, datasets, spaces | "Find popular text-to-image models" |
 
-The agent discovers relevant tools automatically using [Tool RAG](/blog/tool-rag-dynamic-discovery)—you don't need to specify which tool to use.
+All three work seamlessly through Armory, our MCP gateway. The agent discovers relevant tools automatically using [Tool RAG](/blog/tool-rag-dynamic-discovery)—you don't need to specify which tool to use.
 
 ## Add Your Own Tools
 
@@ -50,28 +50,14 @@ All the optimizations we've written about are active:
 - **[TOON format](/blog/toon-format-support)** — Tool results use 30-60% fewer tokens
 - **[Combined: 60% context reduction](/blog/token-optimization-toon-rag)** — More room for conversation
 
-## Cost Estimate
-
-With BYOK, you pay your provider directly. Rough estimates for a typical session (10 exchanges with tool use):
-
-| Model | Approx. Cost |
-|-------|--------------|
-| Gemini 2.0 Flash | ~$0.01 |
-| Claude 3.5 Sonnet | ~$0.05 |
-| GPT-4o | ~$0.08 |
-| Claude Opus 4 | ~$0.30 |
-
-Flash-tier models are surprisingly capable for most tasks. Start there and upgrade if needed.
-
 ## Known Limitations
 
 This is a demo deployment:
 
-- **No persistence** — Conversations aren't saved between sessions
-- **Single region** — Server is in Europe; latency may vary
+- **No Armory admin access** — The Armory admin UI is not exposed in the demo to keep the base configuration consistent for everyone and prevent excessive MCP server additions. You can still add custom MCP servers directly from the chat interface.
 - **Shared infrastructure** — Not designed for production workloads
 
-For production use, deploy your own instance using [forge-devtools](https://github.com/agentic-forge/forge-devtools).
+Want full control? Deploy your own instance using [forge-devtools](https://github.com/agentic-forge/forge-devtools)—everything is open source.
 
 ## Feedback
 
@@ -98,7 +84,6 @@ See the [Getting Started Tutorial](/blog/getting-started-tutorial) for detailed 
 
 We're working on:
 
-- **Conversation persistence** — Save and resume conversations
 - **More MCP servers** — GitHub, calendar, file system tools
 - **Protocol adapters** — OpenAI function calling, REST APIs
 

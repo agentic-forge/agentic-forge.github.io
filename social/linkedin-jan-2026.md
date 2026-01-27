@@ -35,7 +35,7 @@ Agentic Forge demo is live 🚀
 Try it now: https://agentic-forge.compulife.com.pk
 
 What you get:
-• Chat interface with real tool access (weather, web search, HuggingFace)
+• Chat interface with real tool access (our weather and web search servers + third-party HuggingFace)
 • BYOK model—bring your own API key, we never store it
 • Tool RAG—agent discovers relevant tools automatically
 • TOON format—60% less context usage
