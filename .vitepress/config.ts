@@ -71,6 +71,7 @@ export default defineConfig({
           text: 'Blog',
           items: [
             { text: 'All Posts', link: '/blog/' },
+            { text: 'MCP Apps: Interactive Tools', link: '/blog/mcp-apps-interactive-tools' },
             { text: 'Demo is Live', link: '/blog/demo-launch' },
             { text: 'BYOK & Custom MCP Servers', link: '/blog/whats-new-jan-2026' },
             { text: 'Cutting Context by 60%', link: '/blog/token-optimization-toon-rag' },

@@ -83,6 +83,9 @@ Seamless translation between OpenAI, Anthropic, Gemini formats and MCP protocol.
 ### 🔧 Smart Routing
 Rule-based routing to select models and tools based on task characteristics.
 
+### 🖼️ MCP Apps
+Interactive UI components embedded in tool responses. Maps, forms, and visualizations render directly in the chat.
+
 ### 🔍 Observability
 Hooks and middleware for logging, metrics, cost tracking, and custom logic injection.
 

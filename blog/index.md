@@ -6,6 +6,13 @@ Technical articles about building efficient AI agents with Agentic Forge.
 
 <div class="blog-list">
 
+### [MCP Apps: Interactive Tools for AI Agents](/blog/mcp-apps-interactive-tools)
+*February 2026*
+
+Tools can now include interactive UI components. Our first MCP App: a location picker that renders a Leaflet.js map directly in the chat—click to select coordinates, search by name, or use your current location.
+
+---
+
 ### [Agentic Forge Demo is Live](/blog/demo-launch)
 *January 2026*
 

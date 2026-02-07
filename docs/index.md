@@ -30,6 +30,10 @@ Tool results are converted from JSON to TOON (Token-Oriented Object Notation) at
 
 Instead of loading all tools into context, Tool RAG uses semantic search to dynamically select only relevant tools. Our benchmarks show 60% context reduction when combined with TOON format.
 
+### Interactive Tool UIs with MCP Apps
+
+Tools can include interactive UI components that render in the chat. Our location picker demonstrates this—users click on a map to select coordinates instead of typing them. Built on the [MCP Apps specification](https://blog.modelcontextprotocol.io/posts/2026-01-26-mcp-apps/) with sandboxed iframes and JSON-RPC messaging.
+
 ## Data Flow
 
 <div class="diagram-container">
